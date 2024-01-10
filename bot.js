@@ -927,7 +927,7 @@ async function getAvatars(userMentions) {
 	  const gifBuffer = await createGif(avatarUrls, userIds).then((gifBuffer) => {
   
 		console.log('Preparing attachment...');
-		let attachments = new MessageAttachment(gifBuffer, `random.gif`);
+		let attachments = new MessageAttachment(gifBuffer, gifFile);
   
 		const descStr = winners === 1 ? 'a random winner has' : 'random winners have';
 		let msgText;
@@ -1118,7 +1118,7 @@ if (msg.includes('-random')){
 
 				console.log('Preparing attachment...');
 				let attachments;
-				attachments = new MessageAttachment(gifBuffer, `random.gif`);
+				attachments = new MessageAttachment(gifBuffer, gifFile);
 	
 				
 				const descstr = winners === 1 ? 'a random winner has' : 'random winners have';			
