@@ -21,7 +21,6 @@ async function authorizeGoogleSheets() {
   }
 
 
-  // currently not used
   async function getAllDataFromSheet(sheetName) {
 	try {
 	  const sheets = await authorizeGoogleSheets();
@@ -117,7 +116,6 @@ async function getNicknames(userIds) {
 	  }
 	}
 
-// currently not used
 async function writeToGoogleSheet(userIds, sheetName) {
 	
 	const data = await getNicknames(userIds);
@@ -170,6 +168,8 @@ async function writeToGoogleSheet(userIds, sheetName) {
   }
 
   module.exports = {
+	getAllDataFromSheet,
 	getDataByFirstColumnValue,
-	readGoogleSheet
+	readGoogleSheet,
+	writeToGoogleSheet
   };
