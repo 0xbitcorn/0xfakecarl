@@ -2,20 +2,17 @@
 //  0xfakeCARL  //
 //////////////////
 
-const { Client: PGClient } = require('pg');
-const {Client, Intents, MessageSelectMenu, MessageActionRow, MessageEmbed, MessageAttachment} = require('discord.js');
-const { REST } = require('@discordjs/rest');
-const { Routes } = require('discord-api-types/v9');
-const { createCanvas, loadImage } = require('canvas');
-const GIFEncoder = require('gif-encoder-2');
-const auth = require('./auth/auth.json');
-const fs = require('fs');
-const nodefetch = require('node-fetch');
-const Vibrant = require('node-vibrant');
-
-/////////////////////////
-// DISCORD BLAIQ Party //
-/////////////////////////
+const auth = require('./auth/auth.json');					//for various authentication values
+const {Client, Intents, MessageSelectMenu, MessageActionRow, MessageEmbed, MessageAttachment} = require('discord.js');	//discord connection
+const { Client: PGClient } = require('pg');					//Connection to database
+const fs = require('fs');									//for system file access 
+const { REST } = require('@discordjs/rest'); 				//for slash commands
+const { Routes } = require('discord-api-types/v9');			//for slash commands
+const { createCanvas, loadImage } = require('canvas');		//for RAND-O-MATIC
+const GIFEncoder = require('gif-encoder-2');				//for RAND-O-MATIC
+const nodefetch = require('node-fetch');					//for RAND-O-MATIC
+const Vibrant = require('node-vibrant');					//for finding predominant color of image
+const {getMaizeInputFile} = require('./functions/maize.js');
 
 const guildId ='962059766388101301';
 const carl = 'https://cdn.discordapp.com/avatars/971503249138008134/c2abcb03ecba9ec9169b51667a67e507.png';
@@ -33,15 +30,13 @@ const client = new Client({
 	partials: ['MESSAGE', 'CHANNEL', 'REACTION'],
   });
 
-//PUZZLEGANG Database
 const pgClient = new PGClient({
-	user: 'bitcorn',
-	host: 'localhost',
-	database: 'puzzlegang',
+	user: auth.user,
+	host: auth.host,
+	database: auth.database,
 	password: auth.pgpassword,
-	port: 5432, // Change if your PostgreSQL server uses a different port
+	port: auth.port,
   });
-
 
 client.once('ready', () =>{
 	console.log(`${client.user.tag} is connected to Discord!`);
@@ -79,16 +74,13 @@ client.once('ready', () =>{
 
 client.on('interactionCreate', async (interaction) => {
     if (!interaction.isCommand()) return;
-
-    // Find the appropriate command file based on the custom ID
     const commandFile = fs.readdirSync('./commands').find(file => {
-        const command = require(`./commands/${file}`);
-        return interaction.commandName == command.data.name;
+		const command = require(`./commands/${file}`);
+		return interaction.commandName == command.data.name;
     });
 
     if (commandFile) {
         const command = require(`./commands/${commandFile}`);
-
         await command.execute(interaction, pgClient);
     }
 });
@@ -101,55 +93,39 @@ client.login(auth.token);
 //  CONSTANTS  //
 /////////////////
 
-//GOOGLE SHEET: MASTER PUZZLER WALLET LIST
-const spreadsheetId = '1OxfvL9x2AEPR17DUI6R9TW-Edwbxl6vpLfW43wmUQbE';
-
-//MAIZE INPUT FILE
-const maizeFile ='C:\\dev\\maize\\Input\\Input.txt';
-
-//FILE TO TRACK PUZZLES PUSHED TO MAIZE
-const maizeTracker = './createdfiles/tracker.txt';
-
-//gif for RAND-O-MATIC
-const gifFile = './createdfiles/random.gif';
-
-//NFT MAP
-const nftMapping = {
-	'PAKOIN': '0x0b955791fd8f2cb860dd2578b48b2ae259a9d252f28cc2e595bf3954e1cc718f',
-	'CORNMOJI': '0x1c939a4c71138a0650c6641f631baf700a212935f7a21dea0c0d1a432af563ec',
-	'KORNMOGEE': '0x1a157e10b688afcb903e1174ed3a33a5ada8b077abf2f99b544f2bb6e144694e',
-};
-
 //RAND-O-MATC VARIABLES
+const gifFile = './createdfiles/random.gif';
 const size = 128;
 const topOffset = 30;
 const leftOffset = 26;
 const partydoggo = "<a:PARTYDOGGO:971972766150570074>"
 const danceboy = "<a:danceboy:1098290306081894551>"
 const arrowright = ":arrow_right:"
-const pglogo ='https://cdn.discordapp.com/attachments/933487341824270356/1031769217235701781/PGlogo_whitebg.png'
 const pglogospin ="https://cdn.discordapp.com/emojis/986058074253066290.gif"
-const noAvatar = pglogo + "?size=128"
+const urlStart = "https://cdn.discordapp.com/attachments/1089796271142875197/";
+const urlEnd = "?size=128";
+const noAvatar = `pglogo${urlEnd}`;
 const fakeAvatars = [
-	'https://cdn.discordapp.com/attachments/1089796271142875197/1191942319738462238/JEFF.png?size=128',
-	`https://cdn.discordapp.com/attachments/1089796271142875197/1191942319952379936/FFEJ_1.png?size=128`,
-	'https://cdn.discordapp.com/attachments/1089796271142875197/1191931955143508130/pickedMedia1.png?size=128',
-	'https://cdn.discordapp.com/attachments/1089796271142875197/1191931955483258941/pickedMedia1.png?size=128',
-	'https://cdn.discordapp.com/attachments/1089796271142875197/1191931956552794173/pickedMedia1.png?size=128',
-	'https://cdn.discordapp.com/attachments/1089796271142875197/1191942319738462238/JEFF.png?size=128',
-	`https://cdn.discordapp.com/attachments/1089796271142875197/1191942319952379936/FFEJ_1.png?size=128`,
-	`https://cdn.discordapp.com/attachments/1089796271142875197/1191931955797819412/pickedMedia1.png?size=128`,
-	'https://cdn.discordapp.com/attachments/1089796271142875197/1191931956041101413/pickedMedia1.png?size=128',
-	'https://cdn.discordapp.com/attachments/1089796271142875197/1191931956292755607/pickedMedia1.png?size=128',
-	'https://cdn.discordapp.com/attachments/1089796271142875197/1191942319738462238/JEFF.png?size=128',
-	`https://cdn.discordapp.com/attachments/1089796271142875197/1191942319952379936/FFEJ_1.png?size=128`,
-	'https://cdn.discordapp.com/attachments/1089796271142875197/1191931957228077157/pickedMedia1.png?size=128',
-	`https://cdn.discordapp.com/attachments/1089796271142875197/1191931956930289825/pickedMedia1.png?size=128`,
-	'https://cdn.discordapp.com/attachments/1089796271142875197/1191931957488136272/pickedMedia1.png?size=128',
-	'https://cdn.discordapp.com/attachments/1089796271142875197/1191942319738462238/JEFF.png?size=128',
-	`https://cdn.discordapp.com/attachments/1089796271142875197/1191942319952379936/FFEJ_1.png?size=128`
+	`1191942319738462238/JEFF.png`,
+	`1191942319952379936/FFEJ_1.png`,
+	`1191931955143508130/pickedMedia1.png`,
+	`1191931955483258941/pickedMedia1.png`,
+	`1191931956552794173/pickedMedia1.png`,
+	`1191942319738462238/JEFF.png`,
+	`1191942319952379936/FFEJ_1.png`,
+	`1191931955797819412/pickedMedia1.png`,
+	`1191931956041101413/pickedMedia1.png`,
+	`1191931956292755607/pickedMedia1.png`,
+	`1191942319738462238/JEFF.png`,
+	`1191942319952379936/FFEJ_1.png`,
+	`1191931957228077157/pickedMedia1.png`,
+	`1191931956930289825/pickedMedia1.png`,
+	`1191931957488136272/pickedMedia1.png`,
+	`1191942319738462238/JEFF.png`,
+	`1191942319952379936/FFEJ_1.png`
   ];
 
+//NOPEMOJI
 const nopeAvocado = 5; 						//% chance of winning
 const nopeCarrot = 31;						//% chance of winning
 const nopePotato = 30;						//% chance of winning
@@ -168,275 +144,10 @@ global.currsolvechan;
 global.glbGameNum = '';
 global.bpServer;
 global.GIFbeingRecreated = false;
-
-/////////////////////
-// MAIZE FUNCTIONS //
-/////////////////////
-
-async function addToMaizeInputFile(puzzle_id, walletData, NFTname, QTY=1) {
-
-	// Look up the NFT id based on the NFT string
-	const NFTid = nftMapping[NFTname] || 'UNKNOWN';
-	let alreadyProcessed = ' ';
-
-	if (NFTid == 'UNKNOWN'){
-		throw new Error('UNKNOWN NFT, NEED MAIZE nftData string.');
-	}
-    try {
-        // Ensure data is an array
-        const walletArray = Array.isArray(walletData) ? walletData : [walletData];
-        // Write content to the text file
-		for (const wallet of walletArray){
-			if(!searchMaizeTracker(`${puzzle_id}:${wallet}`)){
-				fs.appendFileSync(maizeFile, `${NFTid},${QTY},${wallet},PG LOVES YOU!\n`);  // Adding a newline before appending new content
-				fs.appendFileSync(maizeTracker, `${puzzle_id}:${wallet}, `);  // Adding a newline before appending new content
-			}else{
-				alreadyProcessed += `${puzzle_id}:${wallet},`
-			}
-		}
-        console.log(`Data appended to ${maizeFile}`);
-		if(alreadyProcessed !== ''){
-			console.log(`[WARNING] Process includes data that has already been processed: ${puzzle_id}`);
-			return alreadyProcessed.slice(0,-1).trim();
-		}
-    } catch (error) {
-        console.error('Error appending data:', error.message);
-    }
-}
-
-function searchMaizeTracker(searchValue) {
-    try {
-        const fileContent = fs.readFileSync(maizeTracker, 'utf-8');
-        return fileContent.includes(searchValue);
-    } catch (error) {
-        console.error('Error reading the file:', error.message);
-        return false;
-    }
-}
-
-
-async function clearMaizeInputFile() {
-    try {
-        fs.writeFileSync(maizeFile, '');
-        console.log(`Content cleared from ${maizeFile}`);
-    } catch (error) {
-        console.error('Error clearing file:', error.message);
-    }
-	return true;
-}
-
-function optimizeMaizeInputFile() {
-    try {
-        const fileContent = fs.readFileSync(maizeFile, 'utf-8');
-        const lines = fileContent.split('\n');
-        const combinedQuantities = new Map();
-
-        lines.forEach(line => {
-			if (line.trim() !== '') {
-            const [nftID, nftQTY, userWallet, message] = line.split(',');
-
-            // Generate a unique key for each line based on nftID and userWallet
-            const key = `${nftID}-${userWallet}`;
-
-            if (combinedQuantities.has(key)) {
-                // If the key exists, update the quantity by adding the new nftQTY
-                combinedQuantities.set(key, combinedQuantities.get(key) + parseInt(nftQTY));
-            } else {
-                // If the key doesn't exist, add it to the map with the current nftQTY
-                combinedQuantities.set(key, parseInt(nftQTY));
-            }
-        }});
-
-       // Create a new array with the combined quantities
-	   const updatedLines = Array.from(combinedQuantities, ([key, quantity]) => {
-		const [nftID, userWallet] = key.split('-');
-		return `${nftID},${quantity},${userWallet},PG LOVES YOU!`;
-		
-	});
-
-	updatedLines.push(``);
-
-	fs.writeFileSync(maizeFile, updatedLines.join('\n'), 'utf-8');
-
-	console.log('File updated successfully.');
-
-	} catch (error) {
-		console.error('Error processing the input file:', error.message);
-	}
-}
-
-///////////////////
-// GOOGLE SHEETS //
-///////////////////
-
-const {google} = require('googleapis');
-const {JWT} = require('google-auth-library');
-
-async function authorizeGoogleSheets() {
-	const credentials = require('./auth/carl-410118-ecff430dbb92.json');
-	const jwtClient = new JWT({
-		email: credentials.client_email,
-		key: credentials.private_key,
-		scopes: ['https://www.googleapis.com/auth/spreadsheets'],
-	  });
-  
-	await jwtClient.authorize();
-	console.log('Connected to Google Sheets...');
-	return google.sheets({ version: 'v4', auth: jwtClient });
-  }
-
-
-  // currently not used
-  async function getAllDataFromSheet(sheetName) {
-	try {
-	  const sheets = await authorizeGoogleSheets();
-  
-	  // Fetch all values from the specified sheet
-	  const sheet = await sheets.spreadsheets.values.get({
-		spreadsheetId,
-		range: `${sheetName}!A:B`,
-	  });
-  
-	  // Extract the values from the response
-	  const values = sheet.data.values || [];
-  
-	  return values;
-	} catch (error) {
-	  console.error(`Error retrieving data from Google Sheets: ${error.message}`);
-	  throw new Error('Error retrieving data. Please try again later.');
-	}
-  }
-
-async function getDataByFirstColumnValue(sheetName, namedRange, targetValue) {
-	try {
-	  const sheets = await authorizeGoogleSheets();
-  
-	  // Fetch the values from the specified named range
-	  const sheet = await sheets.spreadsheets.values.get({
-		spreadsheetId,
-		range: `${sheetName}!${namedRange}`,
-	  });
-  
-	  // Extract the values from the response
-	  const values = sheet.data.values;
-  
-	  // Find the row that contains the target value in the first column
-	  const targetRow = values.find(row => row[0] === targetValue);
-  
-	  // Return the entire row as an array
-	  return targetRow || [];
-	} catch (error) {
-	  console.error(`Error retrieving data from Google Sheets: ${error.message}`);
-	  throw new Error('Error retrieving data. Please try again later.');
-	}
-  }
-
-async function getNicknames(userIds) {
-	console.log('Getting nicknames...');
-	const guild = await client.guilds.fetch(guildId);l
-
-	const nicknames = [];
-	for (const userId of userIds) {
-		try{
-			const member = await guild.members.fetch(userId);
-			const nickname = member ? member.nickname || member.user.username : null;
-			nicknames.push(nickname);
-		}catch(err){
-			console.log('User nickname not found:' + userId);
-		}
-	}
-	console.log(nicknames);
-  
-	return nicknames;
-  }
-
-  async function readGoogleSheet(sheetName, cellRanges) {
-	try {
-		const sheets = await authorizeGoogleSheets();
-	
-		// Check if cellRanges is an array
-		if (Array.isArray(cellRanges)) {
-		  const valuesArray = [];
-	
-		  // Loop through each element in the array
-		  for (const cellRange of cellRanges) {
-			if (typeof cellRange === 'string') {
-			  const sheet = await sheets.spreadsheets.values.get({
-				spreadsheetId,
-				range: `${sheetName}!${cellRange}`,
-			  });
-	
-			  // Extract the values from the response and push them to the array
-			  const values = sheet.data.values ? sheet.data.values[0] : undefined;
-			  valuesArray.push(values);
-			} else {
-			  throw new Error(`Invalid element in the array: ${cellRange}`);
-			}
-		  }
-		  return valuesArray;
-		} else {
-		  throw new Error('Input must be an array of cell addresses and/or named ranges.');
-		}
-	  } catch (error) {
-		console.error('Error reading Google Sheets data:', error.message);
-	  }
-	}
-
-// currently not used
-async function writeToGoogleSheet(userIds, sheetName) {
-	
-	const data = await getNicknames(userIds);
-	console.log('Writing to google sheet...');
-  
-	try {
-		const sheets = await authorizeGoogleSheets();
-		const rangeStartRow = await findFirstEmptyCell(sheets, spreadsheetId, sheetName);
-		const range = `${sheetName}!A${rangeStartRow}`;
-		const valueInputOption = 'USER_ENTERED';
-	
-		const requestBody = {
-		  values: data.map(item => [item]),
-		};
-	
-		const response = await sheets.spreadsheets.values.update({
-		  spreadsheetId,
-		  range,
-		  valueInputOption,
-		  resource: requestBody,
-		});
-	
-		console.log('Google Sheets updated successfully:', response.data);
-	  } catch (error) {
-		console.error('Error updating Google Sheets:', error.message);
-	  }  }
-
-
-  async function findFirstEmptyCell(sheets, spreadsheetId, sheetName) {
-	const response = await sheets.spreadsheets.values.get({
-	  spreadsheetId,
-	  range: `${sheetName}!A:A`,
-	});
-  
-	const values = response.data.values;
-  
-	if (!values || values.length === 0) {
-	  return 1; // If column A is completely empty, return the first cell
-	}
-  
-	// Find the first empty cell in column A
-	for (let i = 0; i < values.length; i++) {
-	  if (!values[i][0]) {
-		return i + 1; // Return the row number of the first empty cell
-	  }
-	}
-  
-	// If all cells are occupied, return the next row
-	return values.length + 1;
-  }
  
-  //////////////////////
-  /// OTHER FUNCTIONS //
-  //////////////////////
+//////////////////////
+/// OTHER FUNCTIONS //
+//////////////////////
 
   async function getPredominantColor(imagePath) {
     try {
@@ -571,8 +282,6 @@ function getNopemoji(){
 
 	return shuffled[randomIndex];
 }
-
-
 
 //////////////////
 // RAND-O-MATIC //
@@ -892,7 +601,7 @@ async function getAvatars(userMentions) {
   
 	  while (avatarUrls.length < 10) {
 		console.log('Adding Fake Avatar...')
-		let randomFakeAvatar = fakeAvatars[Math.floor(Math.random() * fakeAvatars.length)];
+		let randomFakeAvatar = `${urlStart}${fakeAvatars[Math.floor(Math.random() * fakeAvatars.length)]}${urlEnd}`;
 		avatarUrls.push(randomFakeAvatar);
 	  }
   
@@ -986,11 +695,6 @@ async function getAvatars(userMentions) {
 ////////////////////
 
 module.exports = {
-	clearMaizeInputFile,
-	optimizeMaizeInputFile,
-	addToMaizeInputFile,
-	getDataByFirstColumnValue,
-	readGoogleSheet,
 	toTitleCase,
 	getPredominantColor
   };
@@ -1019,7 +723,7 @@ if(message.author.id == bitcorn || message.author.id == agentX3){
 	if (msg.includes('!maizefile')){
 		try {
 			// Send the file as an attachment
-			const attachment = { files: [maizeFile] };
+			const attachment = getMaizeInputFile();
 			await message.reply({ content: 'Here is the Maize File:', ...attachment });
 		} catch (error) {
 			message.react('❌');

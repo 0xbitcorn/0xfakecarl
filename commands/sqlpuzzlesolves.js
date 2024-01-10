@@ -1,6 +1,8 @@
 // sqlpuzzlesolves.js
 const { MessageActionRow, MessageSelectMenu, MessageEmbed } = require('discord.js');
-const fs = require('fs');
+const { toTitleCase, getPredominantColor} = require('../bot.js');
+const {readGoogleSheet, getDataByFirstColumnValue} = require('../functions/googleSheets.js');
+const {addToMaizeInputFile, optimizeMaizeInputFile} = require('../functions/maize.js');
 
 module.exports = {
     data: {
@@ -43,8 +45,7 @@ module.exports = {
                 return;
             }
         
-        // Import the clearMaizeInputFile function from the index.js file
-        const { readGoogleSheet, getDataByFirstColumnValue, addToMaizeInputFile, optimizeMaizeInputFile, toTitleCase, getPredominantColor} = require('../bot.js');
+
         let pakoin;
         let prizes;
 
@@ -86,7 +87,7 @@ module.exports = {
           (details->>'answers')::json AS answers,
           (details->>'questions')::json AS questions
           FROM oldman.puzzles
-          WHERE kind = $1 AND ends_at < NOW()
+          WHERE kind = $1 AND ends_at < NOW() AND name <> 'DEFAULT'
           ORDER BY ends_at DESC
           LIMIT 10`;
         const latestPuzzlesResult = await pgClient.query(latestPuzzlesQuery, [puzzleKind]);
@@ -179,9 +180,9 @@ module.exports = {
             }
           });
 
-let firstDayPakoin = parseInt(pakoin[0]) + parseInt(pakoin[1]);
+ let firstDayPakoin = parseInt(pakoin[0]) + parseInt(pakoin[1]);
 
-// Join .discord values for within24Hours and remainingSolves into a string
+ // Join .discord values for within24Hours and remainingSolves into a string
  const within24HoursDiscord = within24Hours.map(user => user.discord).join(' ');
  const remainingSolvesDiscord = remainingSolves.map(user => user.discord).join(' ');
 
@@ -199,13 +200,14 @@ let embedColor;
           try{
             embedColor = await getPredominantColor(selectedPuzzleThumb);
 
-            const puzzleEmbed = new MessageEmbed()
+          //PUZZLE IMAGE AND ANSWERS
+          const puzzleEmbed = new MessageEmbed()
             .setColor(embedColor)
             .setTitle(`${selectedPuzzleName.toUpperCase()}`)
             .setImage(selectedPuzzleImg)
             .setDescription(answerStr)
           
-          // Post messages for each group
+          //PUZZLE SOLVERS
           const embed = new MessageEmbed()
             .setColor(embedColor)
             .setTitle(`${selectedPuzzleName.toUpperCase()} SOLVES`)
@@ -216,21 +218,23 @@ let embedColor;
 
           await interaction.channel.send({ embeds: [puzzleEmbed, embed]});
 
+          let alreadyProcessed24Hours = '';
+          let alreadyProcessedRemaining = '';
+
+
+          if(within24HoursWallets.length>0){
+            console.log('Adding 24 Hour Solvers to Maize Input File')
+            alreadyProcessed24Hours = await addToMaizeInputFile(selectedPuzzleId, within24HoursWallets,"PAKOIN",firstDayPakoin);
+          }
+
+          if(remainingSolvesWallets.length>0){
+            console.log('Adding 24 Hour Solvers to Maize Input File')
+            alreadyProcessedRemaining = await addToMaizeInputFile(selectedPuzzleId, remainingSolvesWallets,"PAKOIN",pakoin[1]);
+          }
           
-
-          //add 24 hr solvers pakoin to maize.txt  
-          let alreadyProcessed24Hours = await addToMaizeInputFile(selectedPuzzleId, within24HoursWallets,"PAKOIN",firstDayPakoin);
-          
-          //add remaining solvers pakoin to maize.txt
-          let alreadyProcessedRemaining = await addToMaizeInputFile(selectedPuzzleId, remainingSolvesWallets,"PAKOIN",pakoin[1]);
-
-          // Combine the alreadyProcessed strings
-          let alreadyProcessed = alreadyProcessed24Hours + alreadyProcessedRemaining;
-
-          //optimize the maize file to combine similar entries
           optimizeMaizeInputFile();
 
-          
+          let alreadyProcessed = alreadyProcessed24Hours + alreadyProcessedRemaining;
           if(alreadyProcessed.length > 0){
             alreadyProcessed = `- ${alreadyProcessed.replace(new RegExp(`${selectedPuzzleId}:`, 'g'), '').split(',').join(`\n- `)}`;
 
@@ -240,23 +244,18 @@ let embedColor;
             });
           }
 
+            /*  
+            if(prizes.length > 2){
+                >>> RUN RAND-O-MATIC WHICH SHOULD ADD THE PRIZES TO MAIZE
+            }*/
 
-        /*  
-        if(prizes.length > 2){
-            >>> RUN RAND-O-MATIC WHICH SHOULD ADD THE PRIZES TO MAIZE
-        }
-        */
-
-          collector.stop(); // Stop collecting after processing the selection       
-
+          collector.stop();       
           } catch(error){
             console.error('Error sending follow-up message:', error.message);
           }
 
         });
 
-        
-  
       } catch (error) {
         console.error('Error executing solves command:', error.message);
         await interaction.reply('Error executing solves command.');
