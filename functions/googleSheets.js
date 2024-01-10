@@ -4,9 +4,10 @@
 
 const {google} = require('googleapis');
 const {JWT} = require('google-auth-library');
+const googleSheetId = require('../auth/googleSheetId.json');
 
-//GOOGLE SHEET: MASTER PUZZLER WALLET LIST
-const spreadsheetId = '1OxfvL9x2AEPR17DUI6R9TW-Edwbxl6vpLfW43wmUQbE';
+//GOOGLE SHEET ID
+const spreadsheetId = googleSheetId.spreadsheetId;
 
 async function authorizeGoogleSheets() {
 	const credentials = require('../auth/carl-410118-ecff430dbb92.json');
