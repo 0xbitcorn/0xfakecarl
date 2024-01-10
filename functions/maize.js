@@ -3,9 +3,13 @@
 /////////////////////
 
 const fs = require('fs');									//for system file access 
+const {sendMessageToChannel} = require('../bot.js');        //to allow sending message to channel
 
 const maizeFile ='C:\\dev\\maize\\Input\\Input.txt';        //MAIZE input.txt file
 const maizeTracker = './createdfiles/tracker.txt';          //Tracker file for recording puzzle_id+wallet sent to input.txt
+
+const guildId ='962059766388101301';
+const maizeLogChannel = '1194678450976469082';
 
 //NFT MAP
 const nftMapping = {
@@ -18,11 +22,21 @@ function getMaizeInputFile(){
     return maizeFile;
 }
 
-async function addToMaizeInputFile(puzzle_id, walletData, NFTname, QTY=1) {
+async function addToMaizeInputFile(puzzle_id, walletData, NFTname, QTY=1, puzzleName='', userData=undefined) {
 
 	// Look up the NFT id based on the NFT string
 	const NFTid = nftMapping[NFTname] || 'UNKNOWN';
 	let alreadyProcessed = ' ';
+    let nothingAdded = `**${puzzleName}** \n`
+    let addedToMaize = nothingAdded;
+
+    if(puzzleName == ''){
+        puzzleName = puzzle_id;
+    }
+
+    if(userData == undefined){
+        userData = walletData;
+    }
 
 	if (NFTid == 'UNKNOWN'){
 		throw new Error('UNKNOWN NFT, NEED MAIZE nftData string.');
@@ -30,15 +44,20 @@ async function addToMaizeInputFile(puzzle_id, walletData, NFTname, QTY=1) {
     try {
         // Ensure data is an array
         const walletArray = Array.isArray(walletData) ? walletData : [walletData];
+        const userArray = Array.isArray(userData) ? userData : [userData];
         // Write content to the text file
-		for (const wallet of walletArray){
+        walletArray.forEach((wallet, index) => {
 			if(!searchMaizeTracker(`${puzzle_id}:${wallet}`)){
 				fs.appendFileSync(maizeFile, `${NFTid},${QTY},${wallet},PG LOVES YOU!\n`);  // Adding a newline before appending new content
 				fs.appendFileSync(maizeTracker, `${puzzle_id}:${wallet}, `);  // Adding a newline before appending new content
+                addedToMaize += `- *${QTY}* ${NFTname} ${userArray[index]} *${wallet}*\n`;
 			}else{
 				alreadyProcessed += `${puzzle_id}:${wallet},`
 			}
-		}
+		});
+        if(addedToMaize !== nothingAdded){
+            await sendMessageToChannel(addedToMaize,maizeLogChannel);
+        }
         console.log(`Data appended to ${maizeFile}`);
 		if(alreadyProcessed !== ''){
 			console.log(`[WARNING] Process includes data that has already been processed: ${puzzle_id}`);

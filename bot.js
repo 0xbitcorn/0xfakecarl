@@ -12,7 +12,6 @@ const { createCanvas, loadImage } = require('canvas');		//for RAND-O-MATIC
 const GIFEncoder = require('gif-encoder-2');				//for RAND-O-MATIC
 const nodefetch = require('node-fetch');					//for RAND-O-MATIC
 const Vibrant = require('node-vibrant');					//for finding predominant color of image
-const {getMaizeInputFile} = require('./functions/maize.js');
 
 const guildId ='962059766388101301';
 const carl = 'https://cdn.discordapp.com/avatars/971503249138008134/c2abcb03ecba9ec9169b51667a67e507.png';
@@ -148,6 +147,22 @@ global.GIFbeingRecreated = false;
 //////////////////////
 /// OTHER FUNCTIONS //
 //////////////////////
+
+async function sendMessageToChannel(message, channelId) {
+	try {
+	  const channel = await client.channels.fetch(channelId);
+  
+	  if (!channel) {
+		console.error(`Channel with ID ${channelId} not found.`);
+		return;
+	  }
+
+	  await channel.send(message);
+
+	} catch (error) {
+	  console.error('Error sending message:', error.message);
+	}
+  }
 
   async function getPredominantColor(imagePath) {
     try {
@@ -696,7 +711,8 @@ async function getAvatars(userMentions) {
 
 module.exports = {
 	toTitleCase,
-	getPredominantColor
+	getPredominantColor,
+	sendMessageToChannel
   };
   
 

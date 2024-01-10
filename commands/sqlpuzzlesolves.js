@@ -224,12 +224,12 @@ let embedColor;
 
           if(within24HoursWallets.length>0){
             console.log('Adding 24 Hour Solvers to Maize Input File')
-            alreadyProcessed24Hours = await addToMaizeInputFile(selectedPuzzleId, within24HoursWallets,"PAKOIN",firstDayPakoin);
+            alreadyProcessed24Hours = await addToMaizeInputFile(selectedPuzzleId, within24HoursWallets,"PAKOIN",firstDayPakoin, selectedPuzzleName, within24HoursDiscord.split(' '));
           }
 
           if(remainingSolvesWallets.length>0){
             console.log('Adding 24 Hour Solvers to Maize Input File')
-            alreadyProcessedRemaining = await addToMaizeInputFile(selectedPuzzleId, remainingSolvesWallets,"PAKOIN",pakoin[1]);
+            alreadyProcessedRemaining = await addToMaizeInputFile(selectedPuzzleId, remainingSolvesWallets,"PAKOIN",pakoin[1], selectedPuzzleName, remainingSolvesDiscord.split(' '));
           }
           
           optimizeMaizeInputFile();
