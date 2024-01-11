@@ -1,7 +1,7 @@
 // sqlpuzzlesolves.js
 const { MessageActionRow, MessageSelectMenu, MessageEmbed } = require('discord.js');
 const { toTitleCase, getPredominantColor} = require('../bot.js');
-const {readGoogleSheet, getDataByFirstColumnValue} = require('../functions/googleSheets.js');
+const {readGoogleSheet, getDataByFirstColumnValue, googleWalletLookup} = require('../functions/googleSheets.js');
 const {addToMaizeInputFile, optimizeMaizeInputFile} = require('../functions/maize.js');
 
 module.exports = {
@@ -160,25 +160,35 @@ module.exports = {
           const remainingSolves = [];
           const startsAt = latestPuzzles.find((puzzle) => puzzle.id === selectedPuzzleId)?.starts_at;
           const endsAt = latestPuzzles.find((puzzle) => puzzle.id === selectedPuzzleId)?.ends_at;
+          let noteStr = ''
           
-          puzzleSolves.forEach((solve) => {
+          for (const solve of puzzleSolves){
+            noteStr = '';
             const user = usersMap.get(solve.user_id);
 
             if (user) {
               const mention = `<@${user.discord}>`;
               const solveTime = new Date(solve.solved_at);
+
+              //If user does not have a wallet registered, check our google sheet wallet database
               if(user.wallet == null || user.wallet == undefined || user.wallet == ''){
-                    console.log(user.discord + " does not have a wallet registered.");
+                user.wallet = await googleWalletLookup(user.discord);
+                if(user.wallet == null || user.wallet == undefined || user.wallet == ''){
+                    noteStr = " [no wallet found]";
+                }else{
+                    noteStr = " [wallet in google sheet]";
+                }
               }
-              if (solveTime >= new Date(startsAt) && solveTime <= new Date(new Date(startsAt).getTime() + 24 * 60 * 60 * 1000)) {
-                within24Hours.push({discord: mention, wallet: user.wallet.trim()});
-                console.log("24HR: " + mention + " : " + user.wallet.trim());
+
+            if (solveTime >= new Date(startsAt) && solveTime <= new Date(new Date(startsAt).getTime() + 24 * 60 * 60 * 1000)) {
+                within24Hours.push({discord: mention, wallet: (user.wallet || '').toString().trim()});
+                console.log("24HR: " + mention + " : " + user.wallet + noteStr);
             } else if(solveTime < new Date(endsAt)) {
-                remainingSolves.push({discord: mention, wallet: user.wallet.trim()});
-                console.log(mention + " : " + user.wallet.trim());
+                remainingSolves.push({discord: mention, wallet: (user.wallet || '').toString().trim()});
+                console.log(mention + " : " + user.wallet + noteStr);
             }
             }
-          });
+          }
 
  let firstDayPakoin = parseInt(pakoin[0]) + parseInt(pakoin[1]);
 
@@ -187,12 +197,15 @@ module.exports = {
  const remainingSolvesDiscord = remainingSolves.map(user => user.discord).join(' ');
 
  // Collect .wallet values for within24Hours and remainingSolves
- const within24HoursWallets = within24Hours
+ const within24HoursWithWallets = within24Hours
  .filter(user => user.wallet !== null && user.wallet !== undefined && user.wallet !== '')
- .map(user => user.wallet);
- const remainingSolvesWallets = remainingSolves
+ const remainingSolvesWithWallets = remainingSolves
  .filter(user => user.wallet !== null && user.wallet !== undefined && user.wallet !== '')
- .map(user => user.wallet);
+
+
+ const UsersWithoutWallets = within24Hours.concat(remainingSolves)
+ .filter(user => user.wallet == null || user.wallet == undefined || user.wallet == '')
+ .map(pair => pair.discord)
 
 let prizestr = '';
 let embedColor;
@@ -222,24 +235,38 @@ let embedColor;
           let alreadyProcessedRemaining = '';
 
 
-          if(within24HoursWallets.length>0){
+          if(within24HoursWithWallets.length>0){
             console.log('Adding 24 Hour Solvers to Maize Input File')
-            alreadyProcessed24Hours = await addToMaizeInputFile(selectedPuzzleId, within24HoursWallets,"PAKOIN",firstDayPakoin, selectedPuzzleName, within24HoursDiscord.split(' '));
+            alreadyProcessed24Hours = await addToMaizeInputFile(selectedPuzzleId, within24HoursWithWallets,"PAKOIN",firstDayPakoin, selectedPuzzleName);
           }
 
-          if(remainingSolvesWallets.length>0){
+          if(remainingSolvesWithWallets.length>0){
             console.log('Adding 24 Hour Solvers to Maize Input File')
-            alreadyProcessedRemaining = await addToMaizeInputFile(selectedPuzzleId, remainingSolvesWallets,"PAKOIN",pakoin[1], selectedPuzzleName, remainingSolvesDiscord.split(' '));
+            alreadyProcessedRemaining = await addToMaizeInputFile(selectedPuzzleId, remainingSolvesWithWallets,"PAKOIN",pakoin[1], selectedPuzzleName);
           }
           
           optimizeMaizeInputFile();
 
+          let sendFollowUp = false;
+          let followUpContent = '';
+          if(UsersWithoutWallets.length>0){
+            sendFollowUp = true;
+            followUpContent = 'The following users do not have a wallet registered:\n' + UsersWithoutWallets.join(' ');
+          }
+
           let alreadyProcessed = alreadyProcessed24Hours + alreadyProcessedRemaining;
           if(alreadyProcessed.length > 0){
+            sendFollowUp = true;
             alreadyProcessed = `- ${alreadyProcessed.replace(new RegExp(`${selectedPuzzleId}:`, 'g'), '').split(',').join(`\n- `)}`;
+            if(followUpContent !== ''){
+              followUpContent += '/n';
+            }
+            followUpContent += `:warning: **PROCESS INCLUDED PREVIOUSLY PROCESSED DATA** :warning:\n\n*${selectedPuzzleName.toUpperCase()} was previously processed for:*\n${alreadyProcessed}`
+          }
 
-            await interaction.followUp({
-                content: `:warning: **PROCESS INCLUDED PREVIOUSLY PROCESSED DATA** :warning:\n\n*${selectedPuzzleName.toUpperCase()} was previously processed for:*\n${alreadyProcessed}`,
+          if(sendFollowUp){
+              await interaction.followUp({
+                content: followUpContent,
                 ephemeral: true,
             });
           }

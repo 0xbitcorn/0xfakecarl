@@ -2,12 +2,12 @@
 // GOOGLE SHEETS //
 ///////////////////
 
+require('dotenv').config();
 const {google} = require('googleapis');
 const {JWT} = require('google-auth-library');
-const googleSheetId = require('../auth/googleSheetId.json');
 
 //GOOGLE SHEET ID
-const spreadsheetId = googleSheetId.spreadsheetId;
+const spreadsheetId = process.env.GOOGLESHEET;
 
 async function authorizeGoogleSheets() {
 	const credentials = require('../auth/carl-410118-ecff430dbb92.json');
@@ -167,9 +167,42 @@ async function writeToGoogleSheet(userIds, sheetName) {
 	return values.length + 1;
   }
 
+  async function googleWalletLookup(user){
+	try {
+		cellRange = "WALLETS!DISWALLET";
+		const userIndex = 0; 		// User id values in the first column
+		const walletIndex = 1; 		// Wallet values in second column
+
+		const sheets = await authorizeGoogleSheets();
+		const response = await sheets.spreadsheets.values.get({
+			spreadsheetId,
+			range: cellRange,
+		  });
+	  	
+		const valuesArray = response.data.values;
+	  
+		if (!valuesArray || valuesArray.length === 0) {
+		console.log('googleWalletLookup: No data found.');
+		return '';
+		}
+		   
+		const rowIndex = valuesArray.findIndex(row => row[userIndex] === user);
+	  
+		if (rowIndex !== -1) {
+			return valuesArray[rowIndex][walletIndex];
+		} else {
+			return '';	//User not found
+		}
+
+	  } catch (error) {
+		console.error('Error reading Google Sheets data:', error.message);
+	  }
+  }
+
   module.exports = {
 	getAllDataFromSheet,
 	getDataByFirstColumnValue,
 	readGoogleSheet,
-	writeToGoogleSheet
+	writeToGoogleSheet,
+	googleWalletLookup
   };

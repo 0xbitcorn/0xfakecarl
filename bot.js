@@ -2,7 +2,7 @@
 //  0xfakeCARL  //
 //////////////////
 
-const auth = require('./auth/auth.json');					//for various authentication values
+require('dotenv').config();					
 const {Client, Intents, MessageSelectMenu, MessageActionRow, MessageEmbed, MessageAttachment} = require('discord.js');	//discord connection
 const { Client: PGClient } = require('pg');					//Connection to database
 const fs = require('fs');									//for system file access 
@@ -30,11 +30,11 @@ const client = new Client({
   });
 
 const pgClient = new PGClient({
-	user: auth.user,
-	host: auth.host,
-	database: auth.database,
-	password: auth.pgpassword,
-	port: auth.port,
+	user: process.env.USER,
+	host: process.env.DB_HOST,
+	database: process.env.DB,
+	password: process.env.APIKEY,
+	port: process.env.PORT,
   });
 
 client.once('ready', () =>{
@@ -43,7 +43,7 @@ client.once('ready', () =>{
 	client.user.setActivity('with carls mind', 'PLAYING');
 
   // Register slash commands
-  const rest = new REST({ version: '9' }).setToken(auth.token);
+  const rest = new REST({ version: '9' }).setToken(process.env.TOKEN);
   const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
   let slashcommands = '';
@@ -86,7 +86,7 @@ client.on('interactionCreate', async (interaction) => {
 
 client.on('error', console.log);
 
-client.login(auth.token);
+client.login(process.env.token);
 
 /////////////////
 //  CONSTANTS  //

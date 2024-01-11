@@ -22,7 +22,7 @@ function getMaizeInputFile(){
     return maizeFile;
 }
 
-async function addToMaizeInputFile(puzzle_id, walletData, NFTname, QTY=1, puzzleName='', userData=undefined) {
+async function addToMaizeInputFile(puzzle_id, walletuserData, NFTname, QTY=1, puzzleName='') {
 
 	// Look up the NFT id based on the NFT string
 	const NFTid = nftMapping[NFTname] || 'UNKNOWN';
@@ -34,23 +34,19 @@ async function addToMaizeInputFile(puzzle_id, walletData, NFTname, QTY=1, puzzle
         puzzleName = puzzle_id;
     }
 
-    if(userData == undefined){
-        userData = walletData;
-    }
-
 	if (NFTid == 'UNKNOWN'){
 		throw new Error('UNKNOWN NFT, NEED MAIZE nftData string.');
 	}
+
     try {
-        // Ensure data is an array
-        const walletArray = Array.isArray(walletData) ? walletData : [walletData];
-        const userArray = Array.isArray(userData) ? userData : [userData];
+        const walletUserDataArray = Array.isArray(walletuserData) ? walletuserData : [];
+        
         // Write content to the text file
-        walletArray.forEach((wallet, index) => {
+        walletUserDataArray.forEach(({wallet, discord}) => {
 			if(!searchMaizeTracker(`${puzzle_id}:${wallet}`)){
 				fs.appendFileSync(maizeFile, `${NFTid},${QTY},${wallet},PG LOVES YOU!\n`);  // Adding a newline before appending new content
 				fs.appendFileSync(maizeTracker, `${puzzle_id}:${wallet}, `);  // Adding a newline before appending new content
-                addedToMaize += `- *${QTY}* ${NFTname} ${userArray[index]} *${wallet}*\n`;
+                addedToMaize += `- *${QTY}* ${NFTname} ${discord} *${wallet}*\n`;
 			}else{
 				alreadyProcessed += `${puzzle_id}:${wallet},`
 			}
