@@ -55,7 +55,7 @@ async function addToMaizeInputFile(puzzle_id, walletuserData, NFTname, QTY=1, pu
             await sendMessageToChannel(addedToMaize,maizeLogChannel);
         }
         console.log(`Data appended to ${maizeFile}`);
-		if(alreadyProcessed !== ''){
+		if(alreadyProcessed !== ' '){
 			console.log(`[WARNING] Process includes data that has already been processed: ${puzzle_id}`);
 			return alreadyProcessed.slice(0,-1).trim();
 		}
@@ -125,9 +125,14 @@ function optimizeMaizeInputFile() {
 	}
 }
 
+async function processDistribution(){
+    console.log('[THIS IS WHERE IT WOULD PROCESS, IF WE HAD THAT FUNCTION]');
+}
+
 module.exports = {
     getMaizeInputFile,
 	clearMaizeInputFile,
 	optimizeMaizeInputFile,
-	addToMaizeInputFile
+	addToMaizeInputFile,
+    processDistribution
 }

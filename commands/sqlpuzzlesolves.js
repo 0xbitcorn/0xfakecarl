@@ -89,7 +89,7 @@ module.exports = {
           FROM oldman.puzzles
           WHERE kind = $1 AND ends_at < NOW() AND name <> 'DEFAULT'
           ORDER BY ends_at DESC
-          LIMIT 10`;
+          LIMIT 15`;
         const latestPuzzlesResult = await pgClient.query(latestPuzzlesQuery, [puzzleKind]);
         const latestPuzzles = latestPuzzlesResult.rows;
           
@@ -129,6 +129,8 @@ module.exports = {
           selectedPuzzleImg = latestPuzzles.find((puzzle) => puzzle.id === selectedPuzzleId)?.puzzle_image;
           selectedPuzzleAnswers = latestPuzzles.find((puzzle) => puzzle.id === selectedPuzzleId)?.answers;
           selectedPuzzleQuestions = latestPuzzles.find((puzzle) => puzzle.id === selectedPuzzleId)?.questions;
+
+          console.log(`[PROCESSING PUZZLE: ${selectedPuzzleName}]`);
 
           let answerStr = '**ANSWERS** \n';
           let qCount = 1;
