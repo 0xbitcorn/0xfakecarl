@@ -22,6 +22,10 @@ function getMaizeInputFile(){
     return maizeFile;
 }
 
+function reviewMaizeInputFile(){
+    
+}
+
 async function addToMaizeInputFile(puzzle_id, walletuserData, NFTname, QTY=1, puzzleName='') {
 
 	// Look up the NFT id based on the NFT string

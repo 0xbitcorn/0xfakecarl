@@ -736,17 +736,6 @@ const msg = message.content.toLowerCase();
 
 if(message.author.id == bitcorn || message.author.id == agentX3){
 
-	if (msg.includes('!maizefile')){
-		try {
-			// Send the file as an attachment
-			const attachment = getMaizeInputFile();
-			await message.reply({ content: 'Here is the Maize File:', ...attachment });
-		} catch (error) {
-			message.react('❌');
-			console.error('Error sending file:', error.message);
-		}
-	}
-
 	if (message.content.startsWith('!sql')) {
 		const sqlQuery = message.content.replace('!sql ','');
 

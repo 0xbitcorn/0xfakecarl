@@ -3,6 +3,7 @@ const { MessageActionRow, MessageSelectMenu, MessageEmbed } = require('discord.j
 const { toTitleCase, getPredominantColor} = require('../bot.js');
 const {readGoogleSheet, getDataByFirstColumnValue, googleWalletLookup} = require('../functions/googleSheets.js');
 const {addToMaizeInputFile, optimizeMaizeInputFile} = require('../functions/maize.js');
+const {addXPToPuzzler} = require('../functions/puzzlerpass.js');
 
 module.exports = {
     data: {
@@ -159,6 +160,7 @@ module.exports = {
   
           // Separate users into two groups based on solve time
           const within24Hours = [];
+          const within48Hours = [];
           const remainingSolves = [];
           const startsAt = latestPuzzles.find((puzzle) => puzzle.id === selectedPuzzleId)?.starts_at;
           const endsAt = latestPuzzles.find((puzzle) => puzzle.id === selectedPuzzleId)?.ends_at;
@@ -185,6 +187,9 @@ module.exports = {
             if (solveTime >= new Date(startsAt) && solveTime <= new Date(new Date(startsAt).getTime() + 24 * 60 * 60 * 1000)) {
                 within24Hours.push({discord: mention, wallet: (user.wallet || '').toString().trim()});
                 console.log("24HR: " + mention + " : " + user.wallet + noteStr);
+            } else if (solveTime >= new Date(startsAt) && solveTime <= new Date(new Date(startsAt).getTime() + 48 * 60 * 60 * 1000)) {
+                within48Hours.push({discord: mention, wallet: (user.wallet || '').toString().trim()});
+                console.log("48HR: " + mention + " : " + user.wallet + noteStr);
             } else if(solveTime < new Date(endsAt)) {
                 remainingSolves.push({discord: mention, wallet: (user.wallet || '').toString().trim()});
                 console.log(mention + " : " + user.wallet + noteStr);
@@ -196,10 +201,13 @@ module.exports = {
 
  // Join .discord values for within24Hours and remainingSolves into a string
  const within24HoursDiscord = within24Hours.map(user => user.discord).join(' ');
+ const within48HoursDiscord = within48Hours.map(user => user.discord).join(' ');
  const remainingSolvesDiscord = remainingSolves.map(user => user.discord).join(' ');
 
  // Collect .wallet values for within24Hours and remainingSolves
  const within24HoursWithWallets = within24Hours
+ .filter(user => user.wallet !== null && user.wallet !== undefined && user.wallet !== '')
+ const within48HoursWithWallets = within48Hours
  .filter(user => user.wallet !== null && user.wallet !== undefined && user.wallet !== '')
  const remainingSolvesWithWallets = remainingSolves
  .filter(user => user.wallet !== null && user.wallet !== undefined && user.wallet !== '')
@@ -215,7 +223,7 @@ let embedColor;
           try{
             embedColor = await getPredominantColor(selectedPuzzleThumb);
 
-          //PUZZLE IMAGE AND ANSWERS
+            //PUZZLE IMAGE AND ANSWERS
           const puzzleEmbed = new MessageEmbed()
             .setColor(embedColor)
             .setTitle(`${selectedPuzzleName.toUpperCase()}`)
@@ -229,7 +237,8 @@ let embedColor;
             .setThumbnail(selectedPuzzleThumb)
             .addField(`SOLVES IN FIRST 24 HOURS (${firstDayPakoin} pakoin)`, within24HoursDiscord || 'No solves in first 24 hours...')
             .addField(' ', ' ')
-            .addField(`REMAINING SOLVES (${pakoin[1]} pakoin)`, remainingSolvesDiscord || 'No additional solves... ');
+            .addField(`REMAINING SOLVES (${pakoin[1]} pakoin)`, within48HoursDiscord.concat(remainingSolvesDiscord) || 'No additional solves... ')
+            .setFooter({text: `Processed by ${interaction.user.tag.split("#")[0]}`});
 
           await interaction.channel.send({ embeds: [puzzleEmbed, embed]});
 
@@ -240,11 +249,19 @@ let embedColor;
           if(within24HoursWithWallets.length>0){
             console.log('Adding 24 Hour Solvers to Maize Input File')
             alreadyProcessed24Hours = await addToMaizeInputFile(selectedPuzzleId, within24HoursWithWallets,"PAKOIN",firstDayPakoin, selectedPuzzleName);
+            await addXPToPuzzler(selectedPuzzleName,within24HoursDiscord.split(" "),"24HR");
+          }
+
+          if(within48HoursWithWallets.length>0){
+            console.log('Adding 48 Hour Solvers to Maize Input File')
+            alreadyProcessed24Hours = await addToMaizeInputFile(selectedPuzzleId, within48HoursWithWallets,"PAKOIN",pakoin[1], selectedPuzzleName);
+            await addXPToPuzzler(selectedPuzzleName,within48HoursDiscord.split(" "),"48HR");
           }
 
           if(remainingSolvesWithWallets.length>0){
-            console.log('Adding 24 Hour Solvers to Maize Input File')
+            console.log('Adding Remaining Solvers to Maize Input File')
             alreadyProcessedRemaining = await addToMaizeInputFile(selectedPuzzleId, remainingSolvesWithWallets,"PAKOIN",pakoin[1], selectedPuzzleName);
+            await addXPToPuzzler(selectedPuzzleName,remainingSolvesDiscord.split(" "),"OTHER");
           }
           
           optimizeMaizeInputFile();
