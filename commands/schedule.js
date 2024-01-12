@@ -31,6 +31,8 @@ module.exports = {
       const unixTime = interaction.options.getInteger('time');
       const messageContent = interaction.options.getString('message');
 
+      // PG-NOTES: Consider that these aren't stored somewhere,
+      // so if the bot goes down, the messages are lost
       // Schedule the message
       const scheduledTime = new Date(unixTime * 1000); // Convert Unix time to milliseconds
       scheduleJob(scheduledTime, () => {

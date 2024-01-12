@@ -58,8 +58,27 @@ module.exports = {
         // Get the selected puzzle kind from the interaction
         const puzzleKind = interaction.options.getString('kind');
 
+        // PG-NOTES: Complex Debugging utility should be extracted out to a separate function
+        // //
+        // console.log(`\x1b[32m[INITIATING PROCESS FOR TYPE: ${puzzleKind.toUpperCase()}]\x1b[0m`);
+        // console.log("\x1b[36m[GOOGLESHEETS]\x1b[0m Collecting Pakoin Amounts");
+        // pakoin = await readGoogleSheet(`DEFAULTS`, [`FIRSTDAY`,`ALLSOLVES`]);
+        // console.log(">>> PAKOIN:" + pakoin);
+        // console.log("\x1b[36m[GOOGLESHEETS]\x1b[0m Collecting Prize and EXP Data");
+        // defaultData = await getDataByFirstColumnValue('DEFAULTS', 'PUZZLEDEFAULTS', puzzleKind.toUpperCase());
+        // prizes = [...defaultData].splice(0,2).splice(4,7);
+        // puzzlepassEXP = [...defaultData].splice(6,3);
+        // if(prizes.length > 0){
+        //   console.log(">>> ADDITIONAL PRIZES: " + prizes);
+        // }else{
+        //   console.log(">>> NO ADDITIONAL PRIZES" + prizes);
+        // }
+        // console.log('puzzlerpass XP:' + puzzlepassEXP);
+
         //Collect prizes for specified puzzle
-        (async () => {
+        // PG-NOTES: Don't create a separate async function, just 
+        // use the code in the same context (like shown above)
+          (async () => {
             try {
                 console.log(`\x1b[32m[INITIATING PROCESS FOR TYPE: ${puzzleKind.toUpperCase()}]\x1b[0m`);
                 console.log("\x1b[36m[GOOGLESHEETS]\x1b[0m Collecting Pakoin Amounts");
@@ -141,6 +160,13 @@ module.exports = {
 
         collector.on('collect', async (i) => {
           const selectedPuzzleId = i.values[0];                                                                 // COLLECTING DETAILS FOR SELECTED PUZZLE
+          // PG-NOTES: Just find the puzzle once and store it in a variable
+          // Also handle the case where the puzzle is not found
+          // const latestPuzzle = latestPuzzles.find((puzzle) => puzzle.id === selectedPuzzleId)
+          // if (!latestPuzzle) {
+          //   handle here
+          // }
+          // const selectedPuzzleName =  latestPuzzle?.name
           selectedPuzzleName = latestPuzzles.find((puzzle) => puzzle.id === selectedPuzzleId)?.name;            // NAME OF PUZZLE
           selectedPuzzleShape = latestPuzzles.find((puzzle) => puzzle.id === selectedPuzzleId)?.shape;          // SHAPE (STANDARD/CROSSWORD)
           selectedPuzzleThumb = latestPuzzles.find((puzzle) => puzzle.id === selectedPuzzleId)?.thumbnail;      // THUMBNAIL GRAPHIC (COVER IMAGE)
@@ -229,7 +255,12 @@ module.exports = {
               //If user does not have a wallet registered, check our google sheet wallet database
               if(user.wallet == null || user.wallet == undefined || user.wallet == ''){
                 user.wallet = await googleWalletLookup(user.discord);
+                // PG-NOTES: You can just do !user.wallet
+                // if (!user.wallet)
+
                 if(user.wallet == null || user.wallet == undefined || user.wallet == ''){
+                    // PG-NOTES: You should just do a `continue` here
+                    // since you're filtering them out later anyway
                     noteStr = " [no wallet found]";
                 }else{
                     noteStr = " [wallet in google sheet]";

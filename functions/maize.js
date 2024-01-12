@@ -5,6 +5,7 @@
 const fs = require('fs');									//for system file access 
 const {sendMessageToChannel} = require('../bot.js');        //to allow sending message to channel
 
+// PG-NOTES: - hardcoded path dependent on OS
 const maizeFile ='C:\\dev\\maize\\Input\\Input.txt';        //MAIZE input.txt file
 const maizeTracker = './createdfiles/tracker.txt';          //Tracker file for recording puzzle_id+wallet sent to input.txt
 

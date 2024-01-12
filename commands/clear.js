@@ -15,6 +15,8 @@ module.exports = {
     ],
   },
   async execute(interaction) {
+        // PG-NOTES: The check should be done before the command is executed
+        // So that the command doesn't show up in the first place
         // Check if the user has permission to manage messages
         if (!interaction.member.permissions.has('MANAGE_MESSAGES')) {
           return interaction.reply({ content: 'You do not have permission to use this command.', ephemeral: true });

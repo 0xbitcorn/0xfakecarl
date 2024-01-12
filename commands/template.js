@@ -53,6 +53,15 @@ async execute(interaction) {
       await interaction.deferReply({ephemeral: true});
       // Check if the user has the necessary permissions or any other conditions if needed
 
+                  // PG-NOTES: You are doing this type of check a lot
+                  // Consider creating a function for it
+      // function checkMember(member, role) {
+      // if (!member || !member.roles || !member.roles.cache.has(requiredRoleId)) {
+      //  return false
+      //  }
+      //
+      // }
+
                   // Check if the user has the PuzzleGang role
                   const requiredRoleId = '970758538681012315';
                   const member = interaction.member;

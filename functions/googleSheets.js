@@ -2,7 +2,8 @@
 // GOOGLE SHEETS //
 ///////////////////
 
-require('dotenv').config();
+// PG-NOTES: - unnecessary dotenv loading
+// require('dotenv').config();
 const {google} = require('googleapis');
 const {JWT} = require('google-auth-library');
 

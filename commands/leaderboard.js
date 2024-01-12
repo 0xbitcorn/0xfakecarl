@@ -150,13 +150,16 @@ module.exports = {
                 */
 
               let xPos = edgeMargin;
-              
+              // PG-NOTES: Don't create printText and then mutate it over and over
+              // Just create new variables for each column, or better, use an array
               let printText = index; //Rank
+              // const [avatar, _, username, exp, tier, ...] = column
               textWidth = ctx.measureText(printText).width;                             //Centered
               ctx.fillText(printText, xPos - textWidth/2 + colWidth[0]/2, yPos - defaultFontSizeInt);   //Centered
               xPos += colWidth[0];
 
               printText = column[2]; //Username
+              // const username = column[2]
               ctx.fillText(printText, xPos, yPos - defaultFontSizeInt);
               xPos += colWidth[1];
 
