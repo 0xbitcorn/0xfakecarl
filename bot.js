@@ -103,7 +103,8 @@ const arrowright = ":arrow_right:"
 const pglogospin ="https://cdn.discordapp.com/emojis/986058074253066290.gif"
 const urlStart = "https://cdn.discordapp.com/attachments/1089796271142875197/";
 const urlEnd = "?size=128";
-const noAvatar = `pglogo${urlEnd}`;
+const pglogo = 'https://cdn.discordapp.com/attachments/933487341824270356/1031769217235701781/PGlogo_whitebg.png'
+const noAvatar = pglogo + urlEnd;
 const fakeAvatars = [
 	`1191942319738462238/JEFF.png`,
 	`1191942319952379936/FFEJ_1.png`,
@@ -308,7 +309,8 @@ async function getAvatars(userMentions) {
 	  const userId = mention.replace(/[^0-9]/g, ''); // Extract numerical user ID
 	  try {
 		const user = await client.users.fetch(userId);
-		avatarUrls.push(user.avatarURL({ format: 'png', size: size }));
+		console.log(`fetching avatar for: ${userId}`);
+		avatarUrls.push(user.displayAvatarURL({ format: 'png', size: size }));
 	  } catch (error) {
 		console.error(`Error fetching avatar for ${mention}: ${error.message}`);
 		console.log('Assigning default avatar...');
@@ -327,7 +329,7 @@ async function getAvatars(userMentions) {
 	  let frameDelay;
 	  let avatars2;
 	  let avatars3;
-  
+
 	  // Handle stream events
 	  const gifPromise = new Promise((resolve, reject) => {
 		  gifBuffer.on('finish', () => {
@@ -341,6 +343,8 @@ async function getAvatars(userMentions) {
 		  });
 	  });
 
+	  
+
 	  //find userID in avatar url
 	  const userIdFromUrl = (url) => {
 		const match = url.match(/avatars\/(\d+)\//);
@@ -353,7 +357,6 @@ async function getAvatars(userMentions) {
 	  encoder.start();
 	  encoder.setRepeat(0); // 0 means repeat indefinitely
 
-  
 	  for (let cycle = 1; cycle <= 8; cycle++) {
 		  let speedMultiplier;
   
@@ -384,10 +387,10 @@ async function getAvatars(userMentions) {
 		  // Use Promise.all to fetch and load all images with a delay between each fetch
 		  const avatarPromises = avatarUrls.map(async (avatarUrl, index) => {
 			  // Introduce a delay before each fetch
-			  await new Promise(resolve => setTimeout(resolve, index * delayBetweenFetches));
+			  //await new Promise(resolve => setTimeout(resolve, index * delayBetweenFetches));
 		  
 			  const response = await nodefetch(avatarUrl);
-		  
+
 			  // Check if response status is successful
 			  if (!response.ok) {
 				  console.error(`Failed to fetch avatar for ${avatarUrl}. Status: ${response.status}`);
@@ -469,17 +472,7 @@ async function getAvatars(userMentions) {
 				console.log('winner user ID: ' + winnerUserID);
 				
 				try{
-
-					winner = avatarUrls.find((url) => {
-						const userIdFromAvatar = userIdFromUrl(url);
-						if(userIdFromAvatar === null){
-							console.log('userIDfromAvatar: No Avatar Found');
-							return false;
-						}
-						console.log('userIdFromAvatar: ' + userIdFromAvatar);
-						return userIdFromAvatar === winnerUserID;
-					});
-
+					winner = await getAvatars([winnerUserID]);
 					if(winner){
 						console.log(`Found Avatar for Winner ${i+1}: ${winner}`);
 					}else{
@@ -502,7 +495,7 @@ async function getAvatars(userMentions) {
 				}
 				const winnerBuffer = await winnerResponse.buffer();
 				const winnerAvatar = await loadImage(winnerBuffer);
-				await new Promise(resolve => setTimeout(resolve, delayBetweenFetches));
+				//await new Promise(resolve => setTimeout(resolve, delayBetweenFetches));
 
 
 				await Promise.all([winnerAvatar]);
@@ -616,7 +609,8 @@ async function getAvatars(userMentions) {
   
 	  while (avatarUrls.length < 10) {
 		console.log('Adding Fake Avatar...')
-		let randomFakeAvatar = `${urlStart}${fakeAvatars[Math.floor(Math.random() * fakeAvatars.length)]}${urlEnd}`;
+
+		let randomFakeAvatar = urlStart + fakeAvatars[Math.floor(Math.random() * fakeAvatars.length)] + urlEnd;
 		avatarUrls.push(randomFakeAvatar);
 	  }
   
@@ -758,8 +752,11 @@ if(message.author.id == bitcorn || message.author.id == agentX3){
 
 // CURRENT RAND-O-MATIC PROCESS  >> MOVE TO A FUNCTION
 if (msg.includes('-random')){
-	if(message.member.roles.cache.has('970723355097444482') || message.member.roles.cache.has('970758538681012315') || message.member.roles.cache.has('1031625756708720760')){
-
+	if(message.member.roles.cache.has('970758538681012315')){
+		if (message.type !== "REPLY") {
+			await message.channel.send('Reply to the list of users you wish to process.');
+			return
+		}
 		const sentMessage = await message.channel.send('<a:LOADING:986706895492505621> ** LOADING RAND-O-MATIC 9001 ** <a:LOADING:986706895492505621>');
 
 		console.log('INITIATING RAND-O-MATIC 9001...');
@@ -775,6 +772,7 @@ if (msg.includes('-random')){
 			  
 		console.log('Number of winners to select: ' + winners);
 
+
 		message.fetchReference().then(async repliedTo =>{			
 			// Extract usernames from the message content
 			const usernames = repliedTo.content.trim().split(' ');
@@ -787,7 +785,7 @@ if (msg.includes('-random')){
 	
 			while (avatarUrls.length < 10){
 				console.log('Adding Fake Avatar...')
-				let randomFakeAvatar = fakeAvatars[Math.floor(Math.random() * fakeAvatars.length)];
+				let randomFakeAvatar = urlStart + fakeAvatars[Math.floor(Math.random() * fakeAvatars.length)] + urlEnd;
 				avatarUrls.push(randomFakeAvatar);
 			}
 
