@@ -21,13 +21,13 @@ async function authorizeGoogleSheets() {
   }
 
 
-  async function getAllDataFromSheet(sheetName) {
+  async function getAllDataFromSheet(sheetName, ssID=spreadsheetId) {
 	try {
 	  const sheets = await authorizeGoogleSheets();
   
 	  // Fetch all values from the specified sheet
 	  const sheet = await sheets.spreadsheets.values.get({
-		spreadsheetId,
+		ssID,
 		range: `${sheetName}!A:B`,
 	  });
   
@@ -41,13 +41,15 @@ async function authorizeGoogleSheets() {
 	}
   }
 
-async function getDataByFirstColumnValue(sheetName, namedRange, targetValue) {
+
+  
+async function getDataByFirstColumnValue(sheetName, namedRange, targetValue, ssID=spreadsheetId) {
 	try {
 	  const sheets = await authorizeGoogleSheets();
   
 	  // Fetch the values from the specified named range
 	  const sheet = await sheets.spreadsheets.values.get({
-		spreadsheetId,
+		ssID,
 		range: `${sheetName}!${namedRange}`,
 	  });
   
@@ -84,25 +86,63 @@ async function getNicknames(userIds) {
 	return nicknames;
   }
 
-  async function readGoogleSheet(sheetName, cellRanges) {
+async function getSheetNames(ssID=spreadsheetId){
 	try {
 		const sheets = await authorizeGoogleSheets();
+		const { data } = await sheets.spreadsheets.get({
+			ssID,
+		  fields: 'sheets(properties(title))',
+		});
 	
+		const sheetNames = data.sheets.map(sheet => sheet.properties.title);
+	
+		return sheetNames;
+	  } catch (error) {
+		console.error('Error getting sheet names:', error.message);
+		throw error;
+	  }
+}
+  
+  async function readGoogleSheet(sheetName, cellRanges, ssID=spreadsheetId) {
+	try {
+		const sheets = await authorizeGoogleSheets();
+
+			// Check if sheetName is a number
+			if (!isNaN(sheetName)) {
+				const sheetIndex = parseInt(sheetName) - 1;
+
+				const result = await sheets.spreadsheets.get(
+					{
+						spreadsheetId: ssID,
+						fields:	"sheets/properties/title"
+					});
+					
+					let sheetNames = result.data.sheets;
+					//console.log('Sheet Names: ' + JSON.stringify(sheetNames));
+
+				if(sheetIndex >= sheetNames.length){
+					sheetIndex = 0;
+				}
+				sheetName = sheetNames[sheetIndex].properties.title;
+				console.log(`SheetName Identified: ${sheetName}`);
+			}
+
 		// Check if cellRanges is an array
 		if (Array.isArray(cellRanges)) {
-		  const valuesArray = [];
+		  let valuesArray = [];
 	
 		  // Loop through each element in the array
 		  for (const cellRange of cellRanges) {
 			if (typeof cellRange === 'string') {
 			  const sheet = await sheets.spreadsheets.values.get({
-				spreadsheetId,
+				spreadsheetId: ssID,
 				range: `${sheetName}!${cellRange}`,
 			  });
-	
+			
+			  //	console.log('sheet values in googleSheets: ' + JSON.stringify(sheet));
+			  
 			  // Extract the values from the response and push them to the array
-			  const values = sheet.data.values ? sheet.data.values[0] : undefined;
-			  valuesArray.push(values);
+			  valuesArray = sheet.data.values.filter(value => value !== "" && value != undefined);
 			} else {
 			  throw new Error(`Invalid element in the array: ${cellRange}`);
 			}
@@ -116,14 +156,14 @@ async function getNicknames(userIds) {
 	  }
 	}
 
-async function writeToGoogleSheet(userIds, sheetName) {
+async function writeToGoogleSheet(userIds, sheetName, ssID=spreadsheetId) {
 	
 	const data = await getNicknames(userIds);
 	console.log('Writing to google sheet...');
   
 	try {
 		const sheets = await authorizeGoogleSheets();
-		const rangeStartRow = await findFirstEmptyCell(sheets, spreadsheetId, sheetName);
+		const rangeStartRow = await findFirstEmptyCell(sheets, ssID, sheetName);
 		const range = `${sheetName}!A${rangeStartRow}`;
 		const valueInputOption = 'USER_ENTERED';
 	
@@ -132,7 +172,7 @@ async function writeToGoogleSheet(userIds, sheetName) {
 		};
 	
 		const response = await sheets.spreadsheets.values.update({
-		  spreadsheetId,
+			ssID,
 		  range,
 		  valueInputOption,
 		  resource: requestBody,
@@ -144,9 +184,9 @@ async function writeToGoogleSheet(userIds, sheetName) {
 	  }  }
 
 
-  async function findFirstEmptyCell(sheets, spreadsheetId, sheetName) {
+  async function findFirstEmptyCell(sheets, ssID, sheetName) {
 	const response = await sheets.spreadsheets.values.get({
-	  spreadsheetId,
+	  ssID,
 	  range: `${sheetName}!A:A`,
 	});
   
@@ -167,7 +207,7 @@ async function writeToGoogleSheet(userIds, sheetName) {
 	return values.length + 1;
   }
 
-  async function googleWalletLookup(user){
+  async function googleWalletLookup(user, ssID=spreadsheetId){
 	try {
 		cellRange = "WALLETS!DISWALLET";
 		const userIndex = 0; 		// User id values in the first column
@@ -175,7 +215,7 @@ async function writeToGoogleSheet(userIds, sheetName) {
 
 		const sheets = await authorizeGoogleSheets();
 		const response = await sheets.spreadsheets.values.get({
-			spreadsheetId,
+			ssID,
 			range: cellRange,
 		  });
 	  	
@@ -204,5 +244,6 @@ async function writeToGoogleSheet(userIds, sheetName) {
 	getDataByFirstColumnValue,
 	readGoogleSheet,
 	writeToGoogleSheet,
-	googleWalletLookup
+	googleWalletLookup,
+	getSheetNames
   };

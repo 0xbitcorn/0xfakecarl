@@ -70,6 +70,8 @@ function searchXPTracker(searchValue) {
     }
 }
 
+
+
 module.exports = {
     addXPToPuzzler   
 }

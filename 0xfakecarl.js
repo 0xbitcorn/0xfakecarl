@@ -149,6 +149,14 @@ global.GIFbeingRecreated = false;
 /// OTHER FUNCTIONS //
 //////////////////////
 
+function isEvenOrOdd(number) {
+	if (number % 2 === 0) {
+	  return 'Even';
+	} else {
+	  return 'Odd';
+	}
+  }
+
 async function sendMessageToChannel(message, channelId) {
 	try {
 	  const channel = await client.channels.fetch(channelId);
@@ -706,7 +714,8 @@ async function getAvatars(userMentions) {
 module.exports = {
 	toTitleCase,
 	getPredominantColor,
-	sendMessageToChannel
+	sendMessageToChannel,
+	isEvenOrOdd
   };
   
 
