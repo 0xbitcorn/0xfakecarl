@@ -7,7 +7,7 @@ const { MessageAttachment} = require('discord.js');
 const fs = require('fs');									                //for system file access 
 const { createCanvas, loadImage } = require('canvas');                      //for creating image
 const {getSheetNames, readGoogleSheet, getDataByFirstColumnValue, googleWalletLookup} = require('../functions/googleSheets.js');   //for google access
-const {isEvenOrOdd} = require('../0xfakecarl.js');                        //to allow sending message to channel
+const {isEvenOrOdd} = require('../bot.js');                        //to allow sending message to channel
 const { sort } = require('semver');
 require('dotenv').config();
 
