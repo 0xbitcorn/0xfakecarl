@@ -10,6 +10,7 @@ const maizeTracker = './createdfiles/tracker.txt';          //Tracker file for r
 
 const guildId ='962059766388101301';
 const maizeLogChannel = '1194678450976469082';
+const maizeTag ="\x1b[32m[MAIZE]\x1b[0m ";
 
 //NFT MAP
 const nftMapping = {
@@ -39,7 +40,7 @@ async function addToMaizeInputFile(puzzle_id, walletuserData, NFTname, QTY=1, pu
     }
 
 	if (NFTid == 'UNKNOWN'){
-		throw new Error('UNKNOWN NFT, NEED MAIZE nftData string.');
+		throw new Error(maizeTag + 'UNKNOWN NFT, NEED MAIZE nftData string.');
 	}
 
     try {
@@ -55,16 +56,17 @@ async function addToMaizeInputFile(puzzle_id, walletuserData, NFTname, QTY=1, pu
 				alreadyProcessed += `${puzzle_id}:${wallet},`
 			}
 		});
+
         if(addedToMaize !== nothingAdded){
             await sendMessageToChannel(addedToMaize,maizeLogChannel);
+            console.log(maizeTag + `\x1b[32mData appended to ${maizeFile}\x1b[0m`);
         }
-        console.log(`Data appended to ${maizeFile}`);
 		if(alreadyProcessed !== ' '){
-			console.log(`[WARNING] Process includes data that has already been processed: ${puzzle_id}`);
+			console.log(`\x1b[33m[MAIZE] WARNING: Previously processed data identified for: ${puzzle_id}\x1b[0m`);
 			return alreadyProcessed.slice(0,-1).trim();
 		}
     } catch (error) {
-        console.error('Error appending data:', error.message);
+        console.error('\x1b[31m[MAIZE] Error appending data:\x1b[0m', error.message);
     }
 }
 
@@ -73,7 +75,7 @@ function searchMaizeTracker(searchValue) {
         const fileContent = fs.readFileSync(maizeTracker, 'utf-8');
         return fileContent.includes(searchValue);
     } catch (error) {
-        console.error('Error reading the file:', error.message);
+        console.error('\x1b[31m[MAIZE] Error reading the file:\x1b[0m', error.message);
         return false;
     }
 }
@@ -82,9 +84,9 @@ function searchMaizeTracker(searchValue) {
 async function clearMaizeInputFile() {
     try {
         fs.writeFileSync(maizeFile, '');
-        console.log(`Content cleared from ${maizeFile}`);
+        console.log(maizeTag + `\x1b[32mContent cleared from ${maizeFile}\x1b[0m`);
     } catch (error) {
-        console.error('Error clearing file:', error.message);
+        console.error('\x1b[31m[MAIZE] Error clearing file:\x1b[0m', error.message);
     }
 	return true;
 }
@@ -122,15 +124,15 @@ function optimizeMaizeInputFile() {
 
 	fs.writeFileSync(maizeFile, updatedLines.join('\n'), 'utf-8');
 
-	console.log('File updated successfully.');
+	console.log(maizeTag + '\x1b[32mInput file optimized.\x1b[0m');
 
 	} catch (error) {
-		console.error('Error processing the input file:', error.message);
+		console.error('\x1b[31m[MAIZE] Error processing the input file:\x1b[0m', error.message);
 	}
 }
 
 async function processDistribution(){
-    console.log('[THIS IS WHERE IT WOULD PROCESS, IF WE HAD THAT FUNCTION]');
+    console.log(maizeTag + '[THIS IS WHERE IT WOULD PROCESS, IF WE HAD THAT FUNCTION]');
 }
 
 module.exports = {

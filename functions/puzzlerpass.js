@@ -18,16 +18,15 @@ const xpMapping = {
 };
 
 async function addXPToPuzzler(puzzleName, userData, SolveGroup) {
-    console.log("puzzle name: " + puzzleName);
-    console.log("users in solve group: " + SolveGroup);
-    console.log(userData);
+    //console.log("puzzle name: " + puzzleName);
+    console.log(SolveGroup + " SOLVERS: " + userData.join(", "));
     const xpRange = xpMapping[SolveGroup] || 'UNKNOWN';
     let alreadyProcessed = ' ';
     
 
 //Collect prizes for specified puzzle
     try {
-        console.log(`Collecting XP Amount for ${SolveGroup}...`);
+        console.log(`\x1b[36m[PUZZL3RPA5S]\x1b[0m Collecting XP Amount for ${SolveGroup}`);
         xp = await readGoogleSheet(`DEFAULTS`, [xpRange]);
     } catch (error) {
         console.error(error.message);
@@ -36,7 +35,7 @@ async function addXPToPuzzler(puzzleName, userData, SolveGroup) {
     
     let nothingAdded = '`'+`${puzzleName} - ${SolveGroup}` + '`' +` **[${xp} XP]** `;
     let addedToXP = nothingAdded;
-    console.log(addedToXP);
+    console.log(`>>> [${xp} XP] `);
 
 	if (xpRange == 'UNKNOWN' || puzzleName == ''){
 		throw new Error('UNKNOWN VALUE.');

@@ -49,23 +49,32 @@ module.exports = {
 
         let pakoin;
         let prizes;
+        
+        // Get the selected puzzle kind from the interaction
+        const puzzleKind = interaction.options.getString('kind');
 
         //Collect prizes for specified puzzle
         (async () => {
             try {
-                console.log("Collecting Pakoin Amounts...");
+                console.log(`\x1b[32m[INITIATING PROCESS FOR TYPE: ${puzzleKind.toUpperCase()}]\x1b[0m`);
+                console.log("\x1b[36m[GOOGLESHEETS]\x1b[0m Collecting Pakoin Amounts");
                 pakoin = await readGoogleSheet(`DEFAULTS`, [`FIRSTDAY`,`ALLSOLVES`]);
-                console.log("PAKOIN:" + pakoin);
-                console.log("Collecting Prize Data...");
+                console.log(">>> PAKOIN:" + pakoin);
+                console.log("\x1b[36m[GOOGLESHEETS]\x1b[0m Collecting Prize Data");
                 prizes = await getDataByFirstColumnValue('DEFAULTS', 'PUZZLEDEFAULTS', puzzleKind.toUpperCase());
+                prizes.splice(0,2);
+                if(prizes.length > 0){
+                  console.log(">>> ADDITIONAL PRIZES: " + prizes);
+                }else{
+                  console.log(">>> NO ADDITIONAL PRIZES");
+                }
 
             } catch (error) {
                 console.error(error.message);
             }
             })();
 
-        // Get the selected puzzle kind from the interaction
-        const puzzleKind = interaction.options.getString('kind');
+
   
         // Query to get all unique puzzle kinds
         const uniqueKindsQuery = 'SELECT DISTINCT kind FROM oldman.puzzles';
@@ -125,24 +134,28 @@ module.exports = {
         collector.on('collect', async (i) => {
           interaction.deleteReply();
 
-          const selectedPuzzleId = i.values[0];
-          selectedPuzzleName = latestPuzzles.find((puzzle) => puzzle.id === selectedPuzzleId)?.name;
-          selectedPuzzleShape = latestPuzzles.find((puzzle) => puzzle.id === selectedPuzzleId)?.shape;
-          selectedPuzzleThumb = latestPuzzles.find((puzzle) => puzzle.id === selectedPuzzleId)?.thumbnail;
-          selectedPuzzleImg = latestPuzzles.find((puzzle) => puzzle.id === selectedPuzzleId)?.puzzle_image;
-          selectedPuzzleAnswers = latestPuzzles.find((puzzle) => puzzle.id === selectedPuzzleId)?.answers;
-          selectedPuzzleQuestions = latestPuzzles.find((puzzle) => puzzle.id === selectedPuzzleId)?.questions;
+          const selectedPuzzleId = i.values[0];                                                                 // COLLECTING DETAILS FOR SELECTED PUZZLE
+          selectedPuzzleName = latestPuzzles.find((puzzle) => puzzle.id === selectedPuzzleId)?.name;            // NAME OF PUZZLE
+          selectedPuzzleShape = latestPuzzles.find((puzzle) => puzzle.id === selectedPuzzleId)?.shape;          // SHAPE (STANDARD/CROSSWORD)
+          selectedPuzzleThumb = latestPuzzles.find((puzzle) => puzzle.id === selectedPuzzleId)?.thumbnail;      // THUMBNAIL GRAPHIC (COVER IMAGE)
+          selectedPuzzleImg = latestPuzzles.find((puzzle) => puzzle.id === selectedPuzzleId)?.puzzle_image;     // MAIN PUZZLE IMAGE
+          selectedPuzzleAnswers = latestPuzzles.find((puzzle) => puzzle.id === selectedPuzzleId)?.answers;      // ANSWERS
+          selectedPuzzleQuestions = latestPuzzles.find((puzzle) => puzzle.id === selectedPuzzleId)?.questions;  // QUESTIONS (USED TO NUMBER THE ANSWERS)
 
-          console.log(`[PROCESSING PUZZLE: ${selectedPuzzleName}]`);
+          console.log(`\x1b[32m[COLLECTING SOLVERS FOR PUZZLE: ${selectedPuzzleName}]\x1b[0m`);
 
-          let answerStr = '**ANSWERS** \n';
+          //STRING COLLECTORS
+          let answerStr = '**ANSWERS** \n';             
           let crosswordDownStr = '';
           let crosswordAcrossStr = '';
+          let crosswordDescStr = '**DOWN [CLUES]** \n'
+          
+          // VARIBLES USED FOR NUMBERING
           let qCount = 1;
           let crosswordCounter = 0;
-          let crosswordDescStr = '**DOWN [CLUES]** \n'
+          
 
-
+          // POPULATE ANSWER INFORMATION (IF CROSSWORD, ALSO COLLECT CLUES)
           if(Array.isArray(selectedPuzzleAnswers) || (selectedPuzzleShape == "crossword" && typeof selectedPuzzleAnswers === 'object')){
             if(selectedPuzzleShape == "crossword"){
                 
@@ -226,7 +239,7 @@ module.exports = {
                 console.log("48HR: " + mention + " : " + user.wallet + noteStr);
             } else if(solveTime < new Date(endsAt)) {
                 remainingSolves.push({discord: mention, wallet: (user.wallet || '').toString().trim()});
-                console.log(mention + " : " + user.wallet + noteStr);
+                console.log("OTHR: " + mention + " : " + user.wallet + noteStr);
             }
             }
           }
@@ -288,22 +301,28 @@ let embedColor;
           let alreadyProcessed24Hours = '';
           let alreadyProcessedRemaining = '';
 
+          console.log(`\x1b[32m${selectedPuzzleName.toUpperCase()} solves identified.\x1b[0m`);
+          console.log('\x1b[36m[MAIZE]\x1b[0m submit applicable prizes to Input.txt file');
+          console.log('\x1b[36m[PUZZL3RPA5S]\x1b[0m submit XP to _xp-log');
 
           if(within24HoursWithWallets.length>0){
-            console.log('Adding 24 Hour Solvers to Maize Input File')
+            console.log('\x1b[36m[MAIZE]\x1b[0m ADDING PRIZES FOR: 24HR');
             alreadyProcessed24Hours = await addToMaizeInputFile(selectedPuzzleId, within24HoursWithWallets,"PAKOIN",firstDayPakoin, selectedPuzzleName);
+            console.log('\x1b[36m[PUZZL3RPA5S]\x1b[0m ADDING XP FOR: 24HR');
             await addXPToPuzzler(selectedPuzzleName,within24HoursDiscord.split(" "),"24HR");
           }
 
           if(within48HoursWithWallets.length>0){
-            console.log('Adding 48 Hour Solvers to Maize Input File')
+            console.log('\x1b[36m[MAIZE]\x1b[0m ADDING PRIZES FOR: 48HR');
             alreadyProcessed24Hours = await addToMaizeInputFile(selectedPuzzleId, within48HoursWithWallets,"PAKOIN",pakoin[1], selectedPuzzleName);
+            console.log('\x1b[36m[PUZZL3RPA5S]\x1b[0m ADDING XP FOR: 48HR');
             await addXPToPuzzler(selectedPuzzleName,within48HoursDiscord.split(" "),"48HR");
           }
 
           if(remainingSolvesWithWallets.length>0){
-            console.log('Adding Remaining Solvers to Maize Input File')
+            console.log('\x1b[36m[MAIZE]\x1b[0m ADDING PRIZES FOR: OTHR');
             alreadyProcessedRemaining = await addToMaizeInputFile(selectedPuzzleId, remainingSolvesWithWallets,"PAKOIN",pakoin[1], selectedPuzzleName);
+            console.log('\x1b[36m[PUZZL3RPA5S]\x1b[0m ADDING XP FOR: OTHR');
             await addXPToPuzzler(selectedPuzzleName,remainingSolvesDiscord.split(" "),"OTHER");
           }
           
@@ -332,12 +351,17 @@ let embedColor;
                 ephemeral: true,
             });
           }
-
-            /*  
-            if(prizes.length > 2){
-                >>> RUN RAND-O-MATIC WHICH SHOULD ADD THE PRIZES TO MAIZE
-            }*/
-
+            
+            // CURRENTLY ONLY FOR CORNMOJI  
+            if(prizes.length > 0){
+              //NEED RANDOMATIC FUNCTION
+              console.log(`\x1b[32m[PROCESSING ADDITIONAL PRIZES]\x1b[0m`);
+              console.log(`24 HR SOLVE WINNER: ${prizes[0]}`);
+              console.log(`ALL SOLVES WINNER 1: ${prizes[1]}`);
+              console.log(`ALL SOLVES WINNER 2: ${prizes[2]}`);
+              console.log(`ALL SOLVES WINNER 3: ${prizes[3]}`);
+            }
+            console.log(`\x1b[32m[${selectedPuzzleName} SUCCESSFULLY PROCESSED]\x1b[0m`);
           collector.stop();       
           } catch(error){
             console.error('Error sending follow-up message:', error.message);
