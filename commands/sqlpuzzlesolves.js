@@ -55,6 +55,7 @@ module.exports = {
             try {
                 console.log("Collecting Pakoin Amounts...");
                 pakoin = await readGoogleSheet(`DEFAULTS`, [`FIRSTDAY`,`ALLSOLVES`]);
+                console.log("PAKOIN:" + pakoin);
                 console.log("Collecting Prize Data...");
                 prizes = await getDataByFirstColumnValue('DEFAULTS', 'PUZZLEDEFAULTS', puzzleKind.toUpperCase());
 

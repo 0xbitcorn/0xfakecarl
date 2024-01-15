@@ -5,10 +5,12 @@
 
 const { MessageAttachment} = require('discord.js');
 const fs = require('fs');									                //for system file access 
-const { createCanvas, loadImage } = require('canvas');                      //for creating image
+const { createCanvas, loadImage, registerFont} = require('canvas');                      //for creating image
 const {getSheetNames, readGoogleSheet, getDataByFirstColumnValue, googleWalletLookup} = require('../functions/googleSheets.js');   //for google access
-const {isEvenOrOdd} = require('../bot.js');                        //to allow sending message to channel
+const {isEvenOrOdd} = require('../bot.js');                                 //to allow sending message to channel
+const sizeOf = require('image-size');
 const { sort } = require('semver');
+const { family } = require('detect-libc');
 require('dotenv').config();
 
 //GOOGLE SHEET ID
@@ -23,7 +25,7 @@ module.exports = {
     },
     execute: async (interaction) => {
         try {
-            const rows = await readGoogleSheet(2, [dataRange], spreadsheetId); //Sheet1 = 1
+            const rows = await readGoogleSheet(2, dataRange, spreadsheetId); //Sheet1 = 1
         
             // Sort rows by Current EXP in descending order
             const sortedRows = rows.sort((a, b) => b['Current EXP'] - a['Current EXP']);
@@ -43,34 +45,40 @@ module.exports = {
 
 
             //Table Properties
-            const headers = ['Rank', 'Username', 'Avatar', 'EXP', 'Tier', 'To Next Tier', 'Next Reward', 'Avatars', 'EXP Multiplier'];
-            const colWidth = [75, 175, 175, 75, 75, 150, 250, 75, 125];
+            registerFont(`./createdFiles/PixelNES.otf`, {family: 'HeaderFont'});
+            registerFont(`./createdFiles/8bitOperatorPlus8-Bold.ttf`, {family: 'TableFont'});
 
-            const borderColor = `#000000`;                                      //border color
-            const titleRow = `#000000`;                                         //header row color
-            const headerHeight = 50;                                            //header height
+            const headerImgPath = "./createdFiles/puzzlerpassHeader.png";
+            const headerImg = await loadImage(headerImgPath);
+            const headerImgDims = sizeOf(headerImgPath);
+            const headers = ['Rank', 'Username', 'Avatar', 'EXP', 'Tier', 'To Next Tier', 'Next Reward', 'Avatars', 'EXP Multiplier'];
+            const colWidth = [90, 300, 300, 100, 100, 175, 400, 75, 175];
+
+            const borderColor = `#000000`;                                          //border color
+            const titleRow = `#000000`;                                             //header row color
+            const headerHeight = 50;                                                //header height
             const edgeMargin = headerHeight*.5;
 
-            const titleRowFont = `#FFFFFF`;                                     //header font color
-            const titleFontSizeInt = 16;                                        //header font size
-            const titleFontSize = "bold " + titleFontSizeInt +"px Arial";       //header font
+            const titleRowFont = `#FFFFFF`;                                         //header font color
+            const titleFontSizeInt = 14;                                            //header font size
+            const titleFontSize = "bold " + titleFontSizeInt +"px HeaderFont";      //header font
             
-            const defaultFontSizeInt = 16;                                      //default font size
-            const defaultFontSize = defaultFontSizeInt +"px Arial";             //default font
-            const defaultFont = `#000000`;                                      //default font color
-            const evenRowFontSize = "bold " + defaultFontSizeInt +"px Arial";   //alternating row font
-            const evenRowFont = `#FFFFFF`;                                      //alternating font color
+            const defaultFontSizeInt = 20;                                          //default font size
+            const defaultFontSize = defaultFontSizeInt +"px TableFont";             //default font
+            const defaultFont = `#fcfcfc`;                                          //default font color
+            const evenRowFontSize = "bold " + defaultFontSizeInt +"px TableFont";   //alternating row font
+            const evenRowFont = `#fcfcfc`;                                          //alternating font color
 
-            const rowHeight = defaultFontSizeInt*2.5;                           //row height
-            const defaultColor = '#FFFFFF';                                     //default row color
-            const evenRow = '#C43E21';                                          //alternating row color
-            const highlightedRowColor = '#FFFF00';                              //for highlighting user (if found)
+            const rowHeight = defaultFontSizeInt*2.5;                               //row height
+            const defaultColor = '#b03c31';                                         //default row color
+            const evenRow = '#d1473a';                                              //alternating row color
+            const highlightedRowColor = '#FFFF00';                                  //for highlighting user (if found)
 
             let textWidth;
 
             //Image Properties
             const imgWidth = 2*edgeMargin + colWidth.reduce((acc,curr) => acc + curr,0);
-            const imgHeight = headerHeight + dataRows*rowHeight + edgeMargin;
+            const imgHeight = headerImgDims.height + headerHeight + dataRows*rowHeight + edgeMargin;
 
             console.log("Creating PUZZL3R PA5S Leaderboard [" + imgWidth + "W x " + imgHeight + "H]");
 
@@ -84,9 +92,12 @@ module.exports = {
             ctx.fillStyle = defaultColor;
             ctx.fillRect(edgeMargin, 0, canvas.width - 2*edgeMargin, canvas.height - edgeMargin);
             
+            //Draw Header Graphic
+            ctx.drawImage(headerImg, 0, 0, headerImgDims.width, headerImgDims.height);
+
             //Draw Header Row
             ctx.fillStyle = titleRow;
-            ctx.fillRect(0, 0, canvas.width, headerHeight);
+            ctx.fillRect(0, headerImgDims.height, canvas.width, headerHeight);
             ctx.fillStyle = titleRowFont;
             ctx.font = titleFontSize;
             headers.forEach((header, index) => {
@@ -108,7 +119,7 @@ module.exports = {
             
                 //console.log('x to col ' + index + ' start: ' + colWidth.slice(0,index).reduce((acc,curr) => acc + curr,0) + ' and text adjustment = ' + textWidth);
 
-                ctx.fillText(header, edgeMargin + textWidth + colWidth.slice(0,index).reduce((acc,curr) => acc + curr,0), (headerHeight - titleFontSizeInt))
+                ctx.fillText(header, edgeMargin + textWidth + colWidth.slice(0,index).reduce((acc,curr) => acc + curr,0), headerImgDims.height + (headerHeight - titleFontSizeInt))
             
             });
 
@@ -119,7 +130,7 @@ module.exports = {
                     return;
                 }
 
-                let yPos = headerHeight + (index * rowHeight);
+                let yPos = headerImgDims.height + headerHeight + (index * rowHeight);
                 ctx.fillStyle = evenRowFont;
                 ctx.font = evenRowFontSize;
 
@@ -181,7 +192,8 @@ module.exports = {
               textWidth = ctx.measureText(printText).width;                             //Centered
               ctx.fillText(printText, xPos - textWidth/2 + colWidth[8]/2, yPos - defaultFontSizeInt);   //Centered
             });
-        
+
+            ctx.fillStyle = borderColor;
             ctx.fillRect(0, canvas.height - edgeMargin, canvas.width, edgeMargin);
 
             // Save the canvas as an image
@@ -189,7 +201,7 @@ module.exports = {
             const attachment = new MessageAttachment(buffer, leaderboardImg);
             buffer = null;
             // Send the image as a reply
-            await interaction.reply({ content: '***PUZZL3R PA5S LEADERBOARD***', files: [attachment] });
+            await interaction.reply({ content: ' ', files: [attachment] });
 
 
           } catch (error) {

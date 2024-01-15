@@ -92,7 +92,7 @@
     "https-proxy-agent": "^5.0.1",
     "ieee754": "^1.2.1",
     "image-q": "^4.0.0",
-    "image-size": "^1.1.0",
+    "image-size": "^1.1.1",
     "inflight": "^1.0.6",
     "inherits": "^2.0.4",
     "iota-array": "^1.0.0",
