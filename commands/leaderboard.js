@@ -25,6 +25,7 @@ module.exports = {
     },
     execute: async (interaction) => {
         try {
+            await interaction.deferReply();
             const rows = await readGoogleSheet(2, dataRange, spreadsheetId); //Sheet1 = 1
         
             // Sort rows by Current EXP in descending order
@@ -201,7 +202,7 @@ module.exports = {
             const attachment = new MessageAttachment(buffer, leaderboardImg);
             buffer = null;
             // Send the image as a reply
-            await interaction.reply({ content: ' ', files: [attachment] });
+            await interaction.editReply({ content: ' ', files: [attachment] });
 
 
           } catch (error) {

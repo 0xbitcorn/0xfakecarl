@@ -83,7 +83,7 @@ module.exports = {
   
         // Query to get the latest 10 puzzles of the specified kind
         const latestPuzzlesQuery = `
-          SELECT id, name, starts_at, ends_at, 
+          SELECT id, name, shape, starts_at, ends_at, 
           details->>'display_image' AS thumbnail,
           (details->>'images')::json->0 AS puzzle_image,
           (details->>'answers')::json AS answers,
@@ -120,13 +120,14 @@ module.exports = {
         // Event listener for the select menu
         const filter = (i) => i.customId === 'selectPuzzle' && i.user.id === interaction.user.id;
         const collector = interaction.channel.createMessageComponentCollector({ filter, time: 60000 });
-        let selectedPuzzleName;
+        let selectedPuzzleName, selectedPuzzleShape, selectedPuzzleThumb, selectedPuzzleImg, selectedPuzzleAnswers, selectedPuzzleQuestions;
 
         collector.on('collect', async (i) => {
           interaction.deleteReply();
 
           const selectedPuzzleId = i.values[0];
           selectedPuzzleName = latestPuzzles.find((puzzle) => puzzle.id === selectedPuzzleId)?.name;
+          selectedPuzzleShape = latestPuzzles.find((puzzle) => puzzle.id === selectedPuzzleId)?.shape;
           selectedPuzzleThumb = latestPuzzles.find((puzzle) => puzzle.id === selectedPuzzleId)?.thumbnail;
           selectedPuzzleImg = latestPuzzles.find((puzzle) => puzzle.id === selectedPuzzleId)?.puzzle_image;
           selectedPuzzleAnswers = latestPuzzles.find((puzzle) => puzzle.id === selectedPuzzleId)?.answers;
@@ -135,15 +136,47 @@ module.exports = {
           console.log(`[PROCESSING PUZZLE: ${selectedPuzzleName}]`);
 
           let answerStr = '**ANSWERS** \n';
+          let crosswordDownStr = '';
+          let crosswordAcrossStr = '';
           let qCount = 1;
-            selectedPuzzleAnswers.forEach((answer, index) => {
-                if(selectedPuzzleQuestions[index].optional){
-                    answerStr += `${qCount}. [BONUS] ${toTitleCase(answer)} \n`;
-                }else{
-                    answerStr += `${qCount}. ${toTitleCase(answer)} \n`;
-                    qCount++;
+          let crosswordCounter = 0;
+          let crosswordDescStr = '**DOWN [CLUES]** \n'
+
+
+          if(Array.isArray(selectedPuzzleAnswers) || (selectedPuzzleShape == "crossword" && typeof selectedPuzzleAnswers === 'object')){
+            if(selectedPuzzleShape == "crossword"){
+                
+                console.log(Object.keys(selectedPuzzleAnswers.down));
+
+                for(const index in selectedPuzzleAnswers.down){
+                  crosswordDescStr += `**${Object.keys(selectedPuzzleAnswers.down)[crosswordCounter]}\\.** ${toTitleCase(selectedPuzzleAnswers.down[index].clue)} \n`;
+                  crosswordDownStr += `**${Object.keys(selectedPuzzleAnswers.down)[crosswordCounter]}\\.** ${toTitleCase(selectedPuzzleAnswers.down[index].answer)} \n`;
+                  crosswordCounter++;
                 }
-            });
+                crosswordDescStr += '\n **ACROSS [CLUES]** \n';
+                console.log(Object.keys(selectedPuzzleAnswers.down));
+                crosswordCounter = 0;
+                for(const index in selectedPuzzleAnswers.across){
+                  crosswordDescStr += `**${Object.keys(selectedPuzzleAnswers.across)[crosswordCounter]}\\.** ${toTitleCase(selectedPuzzleAnswers.across[index].clue)} \n`;
+                  crosswordAcrossStr += `**${Object.keys(selectedPuzzleAnswers.across)[crosswordCounter]}\\.** ${toTitleCase(selectedPuzzleAnswers.across[index].answer)} \n`;
+                  crosswordCounter++;
+                }
+
+            }else{
+                selectedPuzzleAnswers.forEach((answer, index) => {
+                  if(selectedPuzzleQuestions[index].optional){
+                      answerStr += `${qCount}. [BONUS] ${toTitleCase(answer)} \n`;
+                  }else{
+                      answerStr += `${qCount}. ${toTitleCase(answer)} \n`;
+                      qCount++;
+                  }
+              });
+            }
+          } else{
+            console.log('selectedPuzzleAnswers is not an array: ' + selectedPuzzleAnswers);
+            answerStr += `${toTitleCase(selectedPuzzleAnswers)}`; 
+          }
+
 
           // Query to get puzzle solves based on the selected puzzle ID
           const puzzleSolvesQuery = `
@@ -228,8 +261,17 @@ let embedColor;
           const puzzleEmbed = new MessageEmbed()
             .setColor(embedColor)
             .setTitle(`${selectedPuzzleName.toUpperCase()}`)
-            .setImage(selectedPuzzleImg)
-            .setDescription(answerStr)
+            
+            if(selectedPuzzleShape == "crossword"){
+              puzzleEmbed.setThumbnail(selectedPuzzleThumb);
+              puzzleEmbed.setDescription(crosswordDescStr);
+              puzzleEmbed.addField('DOWN [ANSWERS]', crosswordDownStr, true);
+              puzzleEmbed.addField('ACROSS [ANSWERS]', crosswordAcrossStr, true);
+            }else{
+              puzzleEmbed.setImage(selectedPuzzleImg);
+              puzzleEmbed.setDescription(answerStr);
+            }
+
           
           //PUZZLE SOLVERS
           const embed = new MessageEmbed()
