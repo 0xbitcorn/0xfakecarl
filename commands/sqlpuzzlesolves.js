@@ -1,6 +1,6 @@
 // sqlpuzzlesolves.js
-const { MessageActionRow, MessageSelectMenu, MessageEmbed } = require('discord.js');
-const { toTitleCase, getPredominantColor} = require('../bot.js');
+const {ActionRowBuilder, StringSelectMenuBuilder, EmbedBuilder} = require('discord.js');
+const {toTitleCase, getPredominantColor} = require('../bot.js');
 const {readGoogleSheet, getDataByFirstColumnValue, googleWalletLookup} = require('../functions/googleSheets.js');
 const {addToMaizeInputFile, optimizeMaizeInputFile} = require('../functions/maize.js');
 const {addXPToPuzzler} = require('../functions/puzzlerpass.js');
@@ -109,13 +109,13 @@ module.exports = {
           label: puzzle.name,
           value: puzzle.id,
         }));
-        const selectMenu = new MessageSelectMenu()
+        const selectMenu = new StringSelectMenuBuilder()
           .setCustomId('selectPuzzle')
           .setPlaceholder('Select a puzzle')
           .addOptions(options);
   
         // Create the action row with the select menu
-        const actionRow = new MessageActionRow().addComponents(selectMenu);
+        const actionRow = new ActionRowBuilder().addComponents(selectMenu);
 
         // Send a message with the select menu
         try{
@@ -132,7 +132,6 @@ module.exports = {
         let selectedPuzzleName, selectedPuzzleShape, selectedPuzzleThumb, selectedPuzzleImg, selectedPuzzleAnswers, selectedPuzzleQuestions;
 
         collector.on('collect', async (i) => {
-          interaction.deleteReply();
 
           const selectedPuzzleId = i.values[0];                                                                 // COLLECTING DETAILS FOR SELECTED PUZZLE
           selectedPuzzleName = latestPuzzles.find((puzzle) => puzzle.id === selectedPuzzleId)?.name;            // NAME OF PUZZLE
@@ -162,16 +161,16 @@ module.exports = {
                 console.log(Object.keys(selectedPuzzleAnswers.down));
 
                 for(const index in selectedPuzzleAnswers.down){
-                  crosswordDescStr += `**${Object.keys(selectedPuzzleAnswers.down)[crosswordCounter]}\\.** ${toTitleCase(selectedPuzzleAnswers.down[index].clue)} \n`;
-                  crosswordDownStr += `**${Object.keys(selectedPuzzleAnswers.down)[crosswordCounter]}\\.** ${toTitleCase(selectedPuzzleAnswers.down[index].answer)} \n`;
+                  //crosswordDescStr += `${Object.keys(selectedPuzzleAnswers.down)[crosswordCounter]}\\. ${toTitleCase(selectedPuzzleAnswers.down[index].clue)} \n`;
+                  crosswordDownStr += `${Object.keys(selectedPuzzleAnswers.down)[crosswordCounter]}\\. ${toTitleCase(selectedPuzzleAnswers.down[index].answer)} \n`;
                   crosswordCounter++;
                 }
-                crosswordDescStr += '\n **ACROSS [CLUES]** \n';
+                //crosswordDescStr += '\n **ACROSS [CLUES]** \n';
                 console.log(Object.keys(selectedPuzzleAnswers.down));
                 crosswordCounter = 0;
                 for(const index in selectedPuzzleAnswers.across){
-                  crosswordDescStr += `**${Object.keys(selectedPuzzleAnswers.across)[crosswordCounter]}\\.** ${toTitleCase(selectedPuzzleAnswers.across[index].clue)} \n`;
-                  crosswordAcrossStr += `**${Object.keys(selectedPuzzleAnswers.across)[crosswordCounter]}\\.** ${toTitleCase(selectedPuzzleAnswers.across[index].answer)} \n`;
+                  //crosswordDescStr += `${Object.keys(selectedPuzzleAnswers.across)[crosswordCounter]}\\. ${toTitleCase(selectedPuzzleAnswers.across[index].clue)} \n`;
+                  crosswordAcrossStr += `${Object.keys(selectedPuzzleAnswers.across)[crosswordCounter]}\\. ${toTitleCase(selectedPuzzleAnswers.across[index].answer)} \n`;
                   crosswordCounter++;
                 }
 
@@ -200,12 +199,14 @@ module.exports = {
           const puzzleSolvesResult = await pgClient.query(puzzleSolvesQuery, [selectedPuzzleId]);
           const puzzleSolves = puzzleSolvesResult.rows;
   
+          console.log('Collecting Discord ID for all solvers...');
           // Query to get user Discord IDs
           const usersQuery = 'SELECT id, discord_id, wallet FROM oldman.users';
           const usersResult = await pgClient.query(usersQuery);
           const usersMap = new Map(usersResult.rows.map((user) => [user.id, {discord: user.discord_id, wallet: user.wallet}]));
   
           // Separate users into two groups based on solve time
+          console.log('Splitting solvers into groups based on solve time...');
           const within24Hours = [];
           const within48Hours = [];
           const remainingSolves = [];
@@ -244,6 +245,8 @@ module.exports = {
             }
           }
 
+          
+
  let firstDayPakoin = parseInt(pakoin[0]) + parseInt(pakoin[1]);
 
  // Join .discord values for within24Hours and remainingSolves into a string
@@ -264,39 +267,47 @@ module.exports = {
  .filter(user => user.wallet == null || user.wallet == undefined || user.wallet == '')
  .map(pair => pair.discord)
 
+ console.log('Building embeds...');
+
 let prizestr = '';
 let embedColor;
 
           try{
+            
             embedColor = await getPredominantColor(selectedPuzzleThumb);
 
             //PUZZLE IMAGE AND ANSWERS
-          const puzzleEmbed = new MessageEmbed()
+          const puzzleEmbed = new EmbedBuilder()
             .setColor(embedColor)
             .setTitle(`${selectedPuzzleName.toUpperCase()}`)
-            
             if(selectedPuzzleShape == "crossword"){
               puzzleEmbed.setThumbnail(selectedPuzzleThumb);
-              puzzleEmbed.setDescription(crosswordDescStr);
-              puzzleEmbed.addField('DOWN [ANSWERS]', crosswordDownStr, true);
-              puzzleEmbed.addField('ACROSS [ANSWERS]', crosswordAcrossStr, true);
+              //puzzleEmbed.setDescription(crosswordDescStr);
+              puzzleEmbed.addFields(
+                {name: 'DOWN', value: crosswordDownStr, inline: true},
+                {name: 'ACROSS', value: crosswordAcrossStr, inline: true},
+              );
             }else{
               puzzleEmbed.setImage(selectedPuzzleImg);
               puzzleEmbed.setDescription(answerStr);
             }
-
+            console.log('Answer embed created...');
           
           //PUZZLE SOLVERS
-          const embed = new MessageEmbed()
+          const embed = new EmbedBuilder()
             .setColor(embedColor)
             .setTitle(`${selectedPuzzleName.toUpperCase()} SOLVES`)
             .setThumbnail(selectedPuzzleThumb)
-            .addField(`SOLVES IN FIRST 24 HOURS (${firstDayPakoin} pakoin)`, within24HoursDiscord || 'No solves in first 24 hours...')
-            .addField(' ', ' ')
-            .addField(`REMAINING SOLVES (${pakoin[1]} pakoin)`, within48HoursDiscord.concat(remainingSolvesDiscord) || 'No additional solves... ')
+            .addFields(
+              {name: `SOLVES IN FIRST 24 HOURS (${firstDayPakoin} pakoin)`, value: within24HoursDiscord || 'No solves in first 24 hours...'},
+              {name: '\u200B', value: '\u200B'},
+              {name: `REMAINING SOLVES (${pakoin[1]} pakoin)`, value: within48HoursDiscord.concat(remainingSolvesDiscord) || 'No additional solves... '},
+            )
             .setFooter({text: `Processed by ${interaction.user.tag.split("#")[0]}`});
+            console.log('Solver embed created...');
 
           await interaction.channel.send({ embeds: [puzzleEmbed, embed]});
+          console.log('Embeds posted...');
 
           let alreadyProcessed24Hours = '';
           let alreadyProcessedRemaining = '';
@@ -346,7 +357,8 @@ let embedColor;
           }
 
           if(sendFollowUp){
-              await interaction.followUp({
+            console.log('Sending follow up message...');
+            await interaction.followUp({
                 content: followUpContent,
                 ephemeral: true,
             });

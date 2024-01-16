@@ -3,7 +3,7 @@
 //////////////////
 
 require('dotenv').config();					
-const {Client, Intents, MessageSelectMenu, MessageActionRow, MessageEmbed, MessageAttachment} = require('discord.js');	//discord connection
+const {Client, GatewayIntentBits, EmbedBuilder, AttachmentBuilder} = require('discord.js');	//discord connection
 const { Client: PGClient } = require('pg');					//Connection to database
 const fs = require('fs');									//for system file access 
 const { REST } = require('@discordjs/rest'); 				//for slash commands
@@ -18,16 +18,17 @@ const carl = 'https://cdn.discordapp.com/avatars/971503249138008134/c2abcb03ecba
 
 const client = new Client({
 	intents: [
-	  Intents.FLAGS.GUILDS,
-	  Intents.FLAGS.GUILD_MEMBERS,
-	  Intents.FLAGS.GUILD_MESSAGES,
-	  Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
-	  Intents.FLAGS.DIRECT_MESSAGES,
-	  Intents.FLAGS.DIRECT_MESSAGE_REACTIONS,
-	  Intents.FLAGS.DIRECT_MESSAGE_TYPING,
+	  GatewayIntentBits.Guilds,
+	  GatewayIntentBits.GuildMembers,
+	  GatewayIntentBits.GuildMessages,
+	  GatewayIntentBits.MessageContent,
+	  GatewayIntentBits.GuildMessageReactions,
+	  GatewayIntentBits.DirectMessages,
+	  GatewayIntentBits.DirectMessageReactions,
+	  GatewayIntentBits.DirectMessageTyping,
 	],
 	partials: ['MESSAGE', 'CHANNEL', 'REACTION'],
-  });
+  });  
 
 const pgClient = new PGClient({
 	user: process.env.USER,
@@ -40,7 +41,7 @@ const pgClient = new PGClient({
 client.once('ready', () =>{
 	console.log(`${client.user.tag} is connected to Discord!`);
 	pgClient.connect();
-	client.user.setActivity('with carls mind', 'PLAYING');
+	client.user.setActivity('with carls mind', {type: 'PLAYING'});
 
   // Register slash commands
   const rest = new REST({ version: '9' }).setToken(process.env.TOKEN);
@@ -182,7 +183,7 @@ async function sendMessageToChannel(message, channelId) {
         const palette = await vibrant.getPalette();
 
         // Access the predominant color
-        const predominantColor = palette.Vibrant.rgb;
+        const predominantColor = palette.Vibrant.hex;
 
         
 		return predominantColor;
@@ -653,14 +654,14 @@ async function getAvatars(userMentions) {
 	  const gifBuffer = await createGif(avatarUrls, userIds).then((gifBuffer) => {
   
 		console.log('Preparing attachment...');
-		let attachments = new MessageAttachment(gifBuffer, gifFile);
+		let attachments = new AttachmentBuilder(gifBuffer, gifFile);
   
 		const descStr = winners === 1 ? 'a random winner has' : 'random winners have';
 		let msgText;
   
 		console.log('Creating embed...');
   
-		const raffleEmbed = new MessageEmbed()
+		const raffleEmbed = new EmbedBuilder()
 		  .setTitle(`RAND-O-MATIC 9001`)
 		  .setDescription(`*The following entries have been processed and ${descStr} been selected...*`)
 		  .setImage('attachment://random.gif')
@@ -746,7 +747,7 @@ if(message.author.id == bitcorn || message.author.id == agentX3){
 			const result = await pgClient.query(sqlQuery);
 			const data = result.rows;
 			fs.writeFileSync('.\\createdfiles\\query.txt', JSON.stringify(data, null, 2));
-			const attachment = new MessageAttachment('.\\createdfiles\\query.txt');
+			const attachment = new AttachmentBuilder('.\\createdfiles\\query.txt');
 			
 			// Reply to the command message with the text file attached
 			await message.reply({content:`Data saved in attached query.txt`, files: [attachment]});
@@ -834,7 +835,7 @@ if (msg.includes('-random')){
 
 				console.log('Preparing attachment...');
 				let attachments;
-				attachments = new MessageAttachment(gifBuffer, gifFile);
+				attachments = new AttachmentBuilder(gifBuffer, gifFile);
 	
 				
 				const descstr = winners === 1 ? 'a random winner has' : 'random winners have';			
@@ -843,7 +844,7 @@ if (msg.includes('-random')){
 				console.log('Creating embed...');
 				
 	
-					const raffleEmbed = new MessageEmbed()
+					const raffleEmbed = new EmbedBuilder()
 						.setTitle(`RAND-O-MATIC 9001`)
 						.setDescription('*The following entries have been processed and ' + descstr + ' been selected...*')
 						.setImage('attachment://random.gif')

@@ -1,5 +1,5 @@
 // sqlCommand.js
-const { MessageAttachment } = require('discord.js');
+const { AttachmentBuilder } = require('discord.js');
 const fs = require('fs');
 
 module.exports = {
@@ -30,7 +30,7 @@ module.exports = {
       const result = await pgClient.query(sqlQuery);
       const data = result.rows;
       fs.writeFileSync('query.txt', JSON.stringify(data, null, 2));
-      const attachment = new MessageAttachment('query.txt');
+      const attachment = new AttachmentBuilder('query.txt');
 
       // Reply to the interaction with the text file attached
       await interaction.reply({ content: replyContent, files: [attachment] });

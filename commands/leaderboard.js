@@ -3,7 +3,7 @@
 // PUZZLERPASS LEADERBOARD //
 /////////////////////////////
 
-const { MessageAttachment} = require('discord.js');
+const {AttachmentBuilder} = require('discord.js');
 const fs = require('fs');									                //for system file access 
 const { createCanvas, loadImage, registerFont} = require('canvas');                      //for creating image
 const {getSheetNames, readGoogleSheet, getDataByFirstColumnValue, googleWalletLookup} = require('../functions/googleSheets.js');   //for google access
@@ -199,7 +199,7 @@ module.exports = {
 
             // Save the canvas as an image
             let buffer = canvas.toBuffer();
-            const attachment = new MessageAttachment(buffer, leaderboardImg);
+            const attachment = new AttachmentBuilder(buffer, leaderboardImg);
             buffer = null;
             // Send the image as a reply
             await interaction.editReply({ content: ' ', files: [attachment] });
