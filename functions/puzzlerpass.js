@@ -8,38 +8,14 @@ const {readGoogleSheet, getDataByFirstColumnValue, googleWalletLookup} = require
 const guildId ='962059766388101301';
 const xpLogChannel = '1195223977602318367';
 const xpTracker = './createdfiles/xptracker.txt';          //Tracker file for recording puzzle_id+wallet sent to input.txt
-let xp;
 
-//NFT MAP
-const xpMapping = {
-	'24HR': 'XP_24',
-	'48HR': 'XP_48',
-	'OTHER': 'XP_OTHER',
-};
-
-async function addXPToPuzzler(puzzleName, userData, SolveGroup) {
+async function addXPToPuzzler(puzzleName, userData, SolveGroup, xp) {
     //console.log("puzzle name: " + puzzleName);
-    console.log(SolveGroup + " SOLVERS: " + userData.join(", "));
-    const xpRange = xpMapping[SolveGroup] || 'UNKNOWN';
-    let alreadyProcessed = ' ';
-    
+    console.log(`AWARDING ${xp} EXP TO ${SolveGroup} SOLVERS: ${userData.join(", ")}`);
 
-//Collect prizes for specified puzzle
-    try {
-        console.log(`\x1b[36m[PUZZL3RPA5S]\x1b[0m Collecting XP Amount for ${SolveGroup}`);
-        xp = await readGoogleSheet(`DEFAULTS`, [xpRange]);
-    } catch (error) {
-        console.error(error.message);
-    }
-    
-    
     let nothingAdded = '`'+`${puzzleName} - ${SolveGroup}` + '`' +` **[${xp} XP]** `;
     let addedToXP = nothingAdded;
     console.log(`>>> [${xp} XP] `);
-
-	if (xpRange == 'UNKNOWN' || puzzleName == ''){
-		throw new Error('UNKNOWN VALUE.');
-	}
 
     try {
         
@@ -68,8 +44,6 @@ function searchXPTracker(searchValue) {
         return false;
     }
 }
-
-
 
 module.exports = {
     addXPToPuzzler   

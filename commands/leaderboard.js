@@ -7,7 +7,6 @@ const {AttachmentBuilder} = require('discord.js');
 const fs = require('fs');									                //for system file access 
 const { createCanvas, loadImage, registerFont} = require('canvas');                      //for creating image
 const {getSheetNames, readGoogleSheet, getDataByFirstColumnValue, googleWalletLookup} = require('../functions/googleSheets.js');   //for google access
-const {isEvenOrOdd} = require('../bot.js');                                 //to allow sending message to channel
 const sizeOf = require('image-size');
 const { sort } = require('semver');
 const { family } = require('detect-libc');

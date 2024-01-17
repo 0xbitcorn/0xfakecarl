@@ -694,8 +694,8 @@ async function getAvatars(userMentions) {
 		  }
 		}
   
-		console.log('Processing winners...');
-		return { embed: raffleEmbed, files: [attachments], text: msgText };
+	  console.log('Processing winners...');
+	  return { embed: raffleEmbed, files: [attachments], text: msgText };
 	  });
   
 	  console.log('Returning processed data...');

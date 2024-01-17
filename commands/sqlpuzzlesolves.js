@@ -4,6 +4,8 @@ const {toTitleCase, getPredominantColor} = require('../bot.js');
 const {readGoogleSheet, getDataByFirstColumnValue, googleWalletLookup} = require('../functions/googleSheets.js');
 const {addToMaizeInputFile, optimizeMaizeInputFile} = require('../functions/maize.js');
 const {addXPToPuzzler} = require('../functions/puzzlerpass.js');
+const { channel } = require('process');
+const { inputEncoding } = require('min-document');
 
 module.exports = {
     data: {
@@ -32,6 +34,7 @@ module.exports = {
     },
     async execute(interaction, pgClient) {
       try {
+            await interaction.deferReply();
 
             // Check if the user has the PuzzleGang role
             const requiredRoleId = '970758538681012315';
@@ -39,7 +42,7 @@ module.exports = {
     
             if (!member || !member.roles || !member.roles.cache.has(requiredRoleId)) {
                 // User doesn't have the required role
-                await interaction.reply({
+                await interaction.editReply({
                 content: 'You do not have the required role to use this command.',
                 ephemeral: true,
                 });
@@ -48,7 +51,9 @@ module.exports = {
         
 
         let pakoin;
+        let defaultData;
         let prizes;
+        let puzzlepassEXP;
         
         // Get the selected puzzle kind from the interaction
         const puzzleKind = interaction.options.getString('kind');
@@ -60,14 +65,16 @@ module.exports = {
                 console.log("\x1b[36m[GOOGLESHEETS]\x1b[0m Collecting Pakoin Amounts");
                 pakoin = await readGoogleSheet(`DEFAULTS`, [`FIRSTDAY`,`ALLSOLVES`]);
                 console.log(">>> PAKOIN:" + pakoin);
-                console.log("\x1b[36m[GOOGLESHEETS]\x1b[0m Collecting Prize Data");
-                prizes = await getDataByFirstColumnValue('DEFAULTS', 'PUZZLEDEFAULTS', puzzleKind.toUpperCase());
-                prizes.splice(0,2);
+                console.log("\x1b[36m[GOOGLESHEETS]\x1b[0m Collecting Prize and EXP Data");
+                defaultData = await getDataByFirstColumnValue('DEFAULTS', 'PUZZLEDEFAULTS', puzzleKind.toUpperCase());
+                prizes = [...defaultData].splice(0,2).splice(4,7);
+                puzzlepassEXP = [...defaultData].splice(6,3);
                 if(prizes.length > 0){
                   console.log(">>> ADDITIONAL PRIZES: " + prizes);
                 }else{
-                  console.log(">>> NO ADDITIONAL PRIZES");
+                  console.log(">>> NO ADDITIONAL PRIZES" + prizes);
                 }
+                console.log('puzzlerpass XP:' + puzzlepassEXP);
 
             } catch (error) {
                 console.error(error.message);
@@ -83,7 +90,7 @@ module.exports = {
   
         // Check if the selected puzzle kind is valid
         if (!uniqueKinds.includes(puzzleKind)) {
-          await interaction.reply({
+          await interaction.editReply({
             content: `Invalid puzzle kind. Available puzzle kinds: ${uniqueKinds.join(', ')}`,
             ephemeral: true,
           });
@@ -116,12 +123,12 @@ module.exports = {
   
         // Create the action row with the select menu
         const actionRow = new ActionRowBuilder().addComponents(selectMenu);
-
         // Send a message with the select menu
         try{
-           await interaction.reply({
+           await interaction.editReply({
                 components: [actionRow],
               });    
+            await interaction.deferUpdate().then(console.log).catch(console.error);
         } catch (error){
             console.error('Error sending initial message: ', error.message);
         }
@@ -131,8 +138,8 @@ module.exports = {
         const collector = interaction.channel.createMessageComponentCollector({ filter, time: 60000 });
         let selectedPuzzleName, selectedPuzzleShape, selectedPuzzleThumb, selectedPuzzleImg, selectedPuzzleAnswers, selectedPuzzleQuestions;
 
-        collector.on('collect', async (i) => {
 
+        collector.on('collect', async (i) => {
           const selectedPuzzleId = i.values[0];                                                                 // COLLECTING DETAILS FOR SELECTED PUZZLE
           selectedPuzzleName = latestPuzzles.find((puzzle) => puzzle.id === selectedPuzzleId)?.name;            // NAME OF PUZZLE
           selectedPuzzleShape = latestPuzzles.find((puzzle) => puzzle.id === selectedPuzzleId)?.shape;          // SHAPE (STANDARD/CROSSWORD)
@@ -153,7 +160,6 @@ module.exports = {
           let qCount = 1;
           let crosswordCounter = 0;
           
-
           // POPULATE ANSWER INFORMATION (IF CROSSWORD, ALSO COLLECT CLUES)
           if(Array.isArray(selectedPuzzleAnswers) || (selectedPuzzleShape == "crossword" && typeof selectedPuzzleAnswers === 'object')){
             if(selectedPuzzleShape == "crossword"){
@@ -189,7 +195,6 @@ module.exports = {
             answerStr += `${toTitleCase(selectedPuzzleAnswers)}`; 
           }
 
-
           // Query to get puzzle solves based on the selected puzzle ID
           const puzzleSolvesQuery = `
             SELECT user_id, solved_at
@@ -212,8 +217,7 @@ module.exports = {
           const remainingSolves = [];
           const startsAt = latestPuzzles.find((puzzle) => puzzle.id === selectedPuzzleId)?.starts_at;
           const endsAt = latestPuzzles.find((puzzle) => puzzle.id === selectedPuzzleId)?.ends_at;
-          let noteStr = ''
-          
+          let noteStr = ''    
           for (const solve of puzzleSolves){
             noteStr = '';
             const user = usersMap.get(solve.user_id);
@@ -245,8 +249,6 @@ module.exports = {
             }
           }
 
-          
-
  let firstDayPakoin = parseInt(pakoin[0]) + parseInt(pakoin[1]);
 
  // Join .discord values for within24Hours and remainingSolves into a string
@@ -268,7 +270,7 @@ module.exports = {
  .map(pair => pair.discord)
 
  console.log('Building embeds...');
-
+ 
 let prizestr = '';
 let embedColor;
 
@@ -299,16 +301,14 @@ let embedColor;
             .setTitle(`${selectedPuzzleName.toUpperCase()} SOLVES`)
             .setThumbnail(selectedPuzzleThumb)
             .addFields(
-              {name: `SOLVES IN FIRST 24 HOURS (${firstDayPakoin} pakoin)`, value: within24HoursDiscord || 'No solves in first 24 hours...'},
-              {name: '\u200B', value: '\u200B'},
-              {name: `REMAINING SOLVES (${pakoin[1]} pakoin)`, value: within48HoursDiscord.concat(remainingSolvesDiscord) || 'No additional solves... '},
+              {name: `SOLVES IN FIRST 24 HOURS (${firstDayPakoin} Pakoin)`, value: within24HoursDiscord || 'No solves in first 24 hours...'},
+              {name: ' ', value: ' '},
+              {name: `REMAINING SOLVES (${pakoin[1]} Pakoin)`, value: within48HoursDiscord.concat(remainingSolvesDiscord) || 'No additional solves... '},
             )
             .setFooter({text: `Processed by ${interaction.user.tag.split("#")[0]}`});
             console.log('Solver embed created...');
-
           await interaction.channel.send({ embeds: [puzzleEmbed, embed]});
           console.log('Embeds posted...');
-
           let alreadyProcessed24Hours = '';
           let alreadyProcessedRemaining = '';
 
@@ -319,25 +319,28 @@ let embedColor;
           if(within24HoursWithWallets.length>0){
             console.log('\x1b[36m[MAIZE]\x1b[0m ADDING PRIZES FOR: 24HR');
             alreadyProcessed24Hours = await addToMaizeInputFile(selectedPuzzleId, within24HoursWithWallets,"PAKOIN",firstDayPakoin, selectedPuzzleName);
-            console.log('\x1b[36m[PUZZL3RPA5S]\x1b[0m ADDING XP FOR: 24HR');
-            await addXPToPuzzler(selectedPuzzleName,within24HoursDiscord.split(" "),"24HR");
+            console.log('\x1b[36m[PUZZL3RPA5S]\x1b[0m ADDING ' + puzzlepassEXP[0] + ' EXP FOR: 24HR');
+            await addXPToPuzzler(selectedPuzzleName, within24HoursDiscord.split(" "),"24HR", puzzlepassEXP[0]);
           }
 
           if(within48HoursWithWallets.length>0){
             console.log('\x1b[36m[MAIZE]\x1b[0m ADDING PRIZES FOR: 48HR');
             alreadyProcessed24Hours = await addToMaizeInputFile(selectedPuzzleId, within48HoursWithWallets,"PAKOIN",pakoin[1], selectedPuzzleName);
-            console.log('\x1b[36m[PUZZL3RPA5S]\x1b[0m ADDING XP FOR: 48HR');
-            await addXPToPuzzler(selectedPuzzleName,within48HoursDiscord.split(" "),"48HR");
+            console.log('\x1b[36m[PUZZL3RPA5S]\x1b[0m ADDING ' + puzzlepassEXP[1] + ' EXP FOR: 48HR');
+            await addXPToPuzzler(selectedPuzzleName, within48HoursDiscord.split(" "),"48HR", puzzlepassEXP[1]);
           }
 
           if(remainingSolvesWithWallets.length>0){
             console.log('\x1b[36m[MAIZE]\x1b[0m ADDING PRIZES FOR: OTHR');
             alreadyProcessedRemaining = await addToMaizeInputFile(selectedPuzzleId, remainingSolvesWithWallets,"PAKOIN",pakoin[1], selectedPuzzleName);
-            console.log('\x1b[36m[PUZZL3RPA5S]\x1b[0m ADDING XP FOR: OTHR');
-            await addXPToPuzzler(selectedPuzzleName,remainingSolvesDiscord.split(" "),"OTHER");
+            console.log('\x1b[36m[PUZZL3RPA5S]\x1b[0m ADDING ' + puzzlepassEXP[2] + ' EXP FOR: OTHR');
+            await addXPToPuzzler(selectedPuzzleName, remainingSolvesDiscord.split(" "),"OTHER", puzzlepassEXP[2]);
           }
+
           
           optimizeMaizeInputFile();
+
+          
 
           let sendFollowUp = false;
           let followUpContent = '';
@@ -345,6 +348,7 @@ let embedColor;
             sendFollowUp = true;
             followUpContent = 'The following users do not have a wallet registered:\n' + UsersWithoutWallets.join(' ');
           }
+
 
           let alreadyProcessed = alreadyProcessed24Hours + alreadyProcessedRemaining;
           if(alreadyProcessed.length > 0){
@@ -356,14 +360,19 @@ let embedColor;
             followUpContent += `:warning: **PROCESS INCLUDED PREVIOUSLY PROCESSED DATA** :warning:\n\n*${selectedPuzzleName.toUpperCase()} was previously processed for:*\n${alreadyProcessed}`
           }
 
+          await interaction.editReply({content: `*${selectedPuzzleName} successfully processed*`, components: []}).catch(console.error);
+
           if(sendFollowUp){
             console.log('Sending follow up message...');
+
             await interaction.followUp({
                 content: followUpContent,
                 ephemeral: true,
             });
+          }else{
+            await interaction.followUp(`[${selectedPuzzleName} SUCCESSFULLY PROCESSED]`);
           }
-            
+
             // CURRENTLY ONLY FOR CORNMOJI  
             if(prizes.length > 0){
               //NEED RANDOMATIC FUNCTION
@@ -383,7 +392,7 @@ let embedColor;
 
       } catch (error) {
         console.error('Error executing solves command:', error.message);
-        await interaction.reply('Error executing solves command.');
+        await interaction.editReply('Error executing solves command.');
       }
     },
   };
