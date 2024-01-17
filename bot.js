@@ -52,10 +52,18 @@ const pgClient = new PGClient({
   port: process.env.PORT,
 });
 
+<<<<<<< Updated upstream
 client.once("ready", () => {
   console.log(`${client.user.tag} is connected to Discord!`);
   pgClient.connect();
   client.user.setActivity("with carls mind", { type: "PLAYING" });
+=======
+client.once('ready', () =>{
+	const guild = client.guilds.cache.get(guildId);
+	console.log(`${client.user.tag} is connected to Discord!`);
+	pgClient.connect();
+	client.user.setActivity('with carls mind', {type: 'PLAYING'});
+>>>>>>> Stashed changes
 
   // Register slash commands
   const rest = new REST({ version: "9" }).setToken(process.env.TOKEN);
@@ -166,6 +174,7 @@ global.GIFbeingRecreated = false;
 /// OTHER FUNCTIONS //
 //////////////////////
 
+<<<<<<< Updated upstream
 function isEvenOrOdd(number) {
   if (number % 2 === 0) {
     return "Even";
@@ -174,6 +183,8 @@ function isEvenOrOdd(number) {
   }
 }
 
+=======
+>>>>>>> Stashed changes
 async function sendMessageToChannel(message, channelId) {
   try {
     // PG-NOTES: - This function is used a lot but you're pulling
@@ -739,11 +750,19 @@ async function processRaffle(winners, usersArray) {
 ////////////////////
 
 module.exports = {
+<<<<<<< Updated upstream
   toTitleCase,
   getPredominantColor,
   sendMessageToChannel,
   isEvenOrOdd,
 };
+=======
+	toTitleCase,
+	getPredominantColor,
+	sendMessageToChannel
+  };
+  
+>>>>>>> Stashed changes
 
 ///////////////////////////
 // START OF MAIN CONTENT //

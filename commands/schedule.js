@@ -21,15 +21,31 @@ module.exports = {
     .addStringOption((option) =>
       option
         .setName('message')
-        .setDescription('Input the message to be posted')
-        .setRequired(true)
+        .setDescription('Input message or leave blank to grab last message you sent in this channel.')
         .setMaxLength(2000)
     ),
   async execute(interaction) {
     try {
       const channel = interaction.options.getChannel('channel');
+      const currChannel = interaction.channel;
       const unixTime = interaction.options.getInteger('time');
-      const messageContent = interaction.options.getString('message');
+      let messageContent = interaction.options.getString('message');
+
+    // If messageContent is blank, fetch the last message sent by the user
+    if (!messageContent) {
+        const messages = await currChannel.messages.fetch();
+        const userMessages = messages.filter(msg => msg.author.id === interaction.user.id);
+        const lastMessage = userMessages.first();
+        if (lastMessage) {
+        messageContent = lastMessage.content;
+        } else {
+        // Handle the case where no previous message is found
+        return interaction.reply({
+            content: "You haven't sent any messages recently.",
+            ephemeral: true,
+        });
+        }
+    }
 
       // PG-NOTES: Consider that these aren't stored somewhere,
       // so if the bot goes down, the messages are lost
@@ -39,7 +55,7 @@ module.exports = {
         channel.send(messageContent);
       });
 
-      await interaction.reply(`Message scheduled for ${scheduledTime}`);
+      await interaction.reply({content:`Message scheduled for ${scheduledTime}`, ephemeral: true});
     } catch (error) {
       console.error('Error scheduling message:', error);
       interaction.reply({

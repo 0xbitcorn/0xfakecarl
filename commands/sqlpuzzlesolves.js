@@ -6,6 +6,8 @@ const {addToMaizeInputFile, optimizeMaizeInputFile} = require('../functions/maiz
 const {addXPToPuzzler} = require('../functions/puzzlerpass.js');
 const { channel } = require('process');
 const { inputEncoding } = require('min-document');
+const pglogo = 'https://cdn.discordapp.com/attachments/933487341824270356/1031769217235701781/PGlogo_whitebg.png'
+
 
 module.exports = {
     data: {
@@ -173,6 +175,15 @@ module.exports = {
           selectedPuzzleImg = latestPuzzles.find((puzzle) => puzzle.id === selectedPuzzleId)?.puzzle_image;     // MAIN PUZZLE IMAGE
           selectedPuzzleAnswers = latestPuzzles.find((puzzle) => puzzle.id === selectedPuzzleId)?.answers;      // ANSWERS
           selectedPuzzleQuestions = latestPuzzles.find((puzzle) => puzzle.id === selectedPuzzleId)?.questions;  // QUESTIONS (USED TO NUMBER THE ANSWERS)
+          const selectedPuzzleId = i.values[0];                                                                           // COLLECTING DETAILS FOR SELECTED PUZZLE
+          selectedPuzzleName = latestPuzzles.find((puzzle) => puzzle.id === selectedPuzzleId)?.name;                      // NAME OF PUZZLE
+          selectedPuzzleShape = latestPuzzles.find((puzzle) => puzzle.id === selectedPuzzleId)?.shape;                    // SHAPE (STANDARD/CROSSWORD)
+          selectedPuzzleThumb = latestPuzzles.find((puzzle) => puzzle.id === selectedPuzzleId)?.thumbnail || pglogo;      // THUMBNAIL GRAPHIC (COVER IMAGE)
+          selectedPuzzleImg = latestPuzzles.find((puzzle) => puzzle.id === selectedPuzzleId)?.puzzle_image || pglogo;     // MAIN PUZZLE IMAGE
+          selectedPuzzleAnswers = latestPuzzles.find((puzzle) => puzzle.id === selectedPuzzleId)?.answers;                // ANSWERS
+          selectedPuzzleQuestions = latestPuzzles.find((puzzle) => puzzle.id === selectedPuzzleId)?.questions;            // QUESTIONS (USED TO NUMBER THE ANSWERS)
+
+          
 
           console.log(`\x1b[32m[COLLECTING SOLVERS FOR PUZZLE: ${selectedPuzzleName}]\x1b[0m`);
 
