@@ -1,0 +1,1612 @@
+[
+  {
+    "user_id": 468,
+    "solved_at": "2024-01-12T00:41:55.396Z",
+    "attempts": 59,
+    "submission": [
+      {
+        "Answer 0": "French cruller",
+        "Answer 1": "Honey crueller",
+        "Answer 2": "Long john",
+        "Answer 3": "Fritter",
+        "Answer 4": "Zeppole",
+        "Answer 5": "Boston cream"
+      },
+      {
+        "Answer 0": "French cruller",
+        "Answer 1": "Bear claw",
+        "Answer 2": "Long john",
+        "Answer 3": "Fritter",
+        "Answer 4": "Old-fashioned",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French cruller",
+        "Answer 1": "Bear claw",
+        "Answer 2": "Long john",
+        "Answer 3": "Fritter",
+        "Answer 4": "Churro",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French cruller",
+        "Answer 1": "Bear claw",
+        "Answer 2": "Long john",
+        "Answer 3": "Fritter",
+        "Answer 4": "Twist",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French cruller",
+        "Answer 1": "Bear claw",
+        "Answer 2": "Long john",
+        "Answer 3": "Fritter",
+        "Answer 4": "Jelly",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French cruller",
+        "Answer 1": "Bear claw",
+        "Answer 2": "Long john",
+        "Answer 3": "Fritter",
+        "Answer 4": "Doughnut",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French cruller",
+        "Answer 1": "Bear claw",
+        "Answer 2": "Long john",
+        "Answer 3": "Fritter",
+        "Answer 4": "Cannoli",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French cruller",
+        "Answer 1": "Bear claw",
+        "Answer 2": "Long john",
+        "Answer 3": "Fritter",
+        "Answer 4": "Timbits",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French cruller",
+        "Answer 1": "Bear claw",
+        "Answer 2": "Long john",
+        "Answer 3": "Fritter",
+        "Answer 4": "Timbit",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French cruller",
+        "Answer 1": "Bear claw",
+        "Answer 2": "Long john",
+        "Answer 3": "Fritter",
+        "Answer 4": "Cronut",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French cruller",
+        "Answer 1": "Bear claw",
+        "Answer 2": "Long john",
+        "Answer 3": "Fritter",
+        "Answer 4": "Glazed",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French cruller",
+        "Answer 1": "Bear claw",
+        "Answer 2": "Long john",
+        "Answer 3": "Fritter",
+        "Answer 4": "Donut",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French cruller",
+        "Answer 1": "Bear claw",
+        "Answer 2": "Long john",
+        "Answer 3": "Fritter",
+        "Answer 4": "Donuts",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French cruller",
+        "Answer 1": "Bear claw",
+        "Answer 2": "Long john",
+        "Answer 3": "Fritter",
+        "Answer 4": "Potato",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French cruller",
+        "Answer 1": "Bear claw",
+        "Answer 2": "Long john",
+        "Answer 3": "Fritter",
+        "Answer 4": "Boston",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French cruller",
+        "Answer 1": "Bear claw",
+        "Answer 2": "Long john",
+        "Answer 3": "Fritter",
+        "Answer 4": "Brioche",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French cruller",
+        "Answer 1": "Bear claw",
+        "Answer 2": "Long john",
+        "Answer 3": "Fritter",
+        "Answer 4": "Powder",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French cruller",
+        "Answer 1": "Bear claw",
+        "Answer 2": "Long john",
+        "Answer 3": "Fritter",
+        "Answer 4": "Powdered",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French cruller",
+        "Answer 1": "Bear claw",
+        "Answer 2": "Long john",
+        "Answer 3": "Fritter",
+        "Answer 4": "Sugar",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French cruller",
+        "Answer 1": "Bear claw",
+        "Answer 2": "Long john",
+        "Answer 3": "Fritter",
+        "Answer 4": "Cronut",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French cruller",
+        "Answer 1": "Bear claw",
+        "Answer 2": "Long john",
+        "Answer 3": "Fritter",
+        "Answer 4": "Berliner",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French cruller",
+        "Answer 1": "Bear claw",
+        "Answer 2": "Long john",
+        "Answer 3": "Fritter",
+        "Answer 4": "Cider",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French cruller",
+        "Answer 1": "Bear claw",
+        "Answer 2": "Long john",
+        "Answer 3": "Fritter",
+        "Answer 4": "Eclair",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French cruller",
+        "Answer 1": "Bear claw",
+        "Answer 2": "Long john",
+        "Answer 3": "Fritter",
+        "Answer 4": "Cinnabon",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French cruller",
+        "Answer 1": "Bear claw",
+        "Answer 2": "Long john",
+        "Answer 3": "Fritter",
+        "Answer 4": "Maple",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French cruller",
+        "Answer 1": "Bear claw",
+        "Answer 2": "Long john",
+        "Answer 3": "Fritter",
+        "Answer 4": "Custard",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French cruller",
+        "Answer 1": "Bear claw",
+        "Answer 2": "Long john",
+        "Answer 3": "Fritter",
+        "Answer 4": "Chocolate",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French cruller",
+        "Answer 1": "Bear claw",
+        "Answer 2": "Long john",
+        "Answer 3": "Fritter",
+        "Answer 4": "Jelly",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French cruller",
+        "Answer 1": "Bear claw",
+        "Answer 2": "Long john",
+        "Answer 3": "Fritter",
+        "Answer 4": "Cinnamon",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French cruller",
+        "Answer 1": "Bear claw",
+        "Answer 2": "Long john",
+        "Answer 3": "Fritter",
+        "Answer 4": "Bavarian",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French cruller",
+        "Answer 1": "Bear claw",
+        "Answer 2": "Long john",
+        "Answer 3": "Fritter",
+        "Answer 4": "Blueberry",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French cruller",
+        "Answer 1": "Bear claw",
+        "Answer 2": "Long john",
+        "Answer 3": "Fritter",
+        "Answer 4": "Holes",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French cruller",
+        "Answer 1": "Bear claw",
+        "Answer 2": "Long john",
+        "Answer 3": "Fritter",
+        "Answer 4": "Malasades",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French cruller",
+        "Answer 1": "Bear claw",
+        "Answer 2": "Long john",
+        "Answer 3": "Fritter",
+        "Answer 4": "Churros",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French cruller",
+        "Answer 1": "Bear claw",
+        "Answer 2": "Long john",
+        "Answer 3": "Fritter",
+        "Answer 4": "Plain",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French cruller",
+        "Answer 1": "Bear claw",
+        "Answer 2": "Long john",
+        "Answer 3": "Fritter",
+        "Answer 4": "Yeast",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French cruller",
+        "Answer 1": "Bear claw",
+        "Answer 2": "Long john",
+        "Answer 3": "Fritter",
+        "Answer 4": "Frosted",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French cruller",
+        "Answer 1": "Bear claw",
+        "Answer 2": "Long john",
+        "Answer 3": "Fritter",
+        "Answer 4": "Yeast",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French cruller",
+        "Answer 1": "Bear claw",
+        "Answer 2": "Long john",
+        "Answer 3": "Fritter",
+        "Answer 4": "Cider",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French cruller",
+        "Answer 1": "Bear claw",
+        "Answer 2": "Long john",
+        "Answer 3": "Fritter",
+        "Answer 4": "Beignet",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French cruller",
+        "Answer 1": "Bear claw",
+        "Answer 2": "Long john",
+        "Answer 3": "Fritter",
+        "Answer 4": "Old",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French cruller",
+        "Answer 1": "Bear claw",
+        "Answer 2": "Long john",
+        "Answer 3": "Fritter",
+        "Answer 4": "Drop",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French cruller",
+        "Answer 1": "Bear claw",
+        "Answer 2": "Long john",
+        "Answer 3": "Fritter",
+        "Answer 4": "Dunkin",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French cruller",
+        "Answer 1": "Bear claw",
+        "Answer 2": "Long john",
+        "Answer 3": "Fritter",
+        "Answer 4": "Dunkin’",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French cruller",
+        "Answer 1": "Bear claw",
+        "Answer 2": "Long john",
+        "Answer 3": "Fritter",
+        "Answer 4": "Plain",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French cruller",
+        "Answer 1": "Bear claw",
+        "Answer 2": "Long john",
+        "Answer 3": "Fritter",
+        "Answer 4": "Dutchie",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French cruller",
+        "Answer 1": "Bear claw",
+        "Answer 2": "Long john",
+        "Answer 3": "Fritter",
+        "Answer 4": "Timbit",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French cruller",
+        "Answer 1": "Bear claw",
+        "Answer 2": "Long john",
+        "Answer 3": "Fritter",
+        "Answer 4": "Munchkins",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French cruller",
+        "Answer 1": "Bear claw",
+        "Answer 2": "Long john",
+        "Answer 3": "Fritter",
+        "Answer 4": "Bulls",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French cruller",
+        "Answer 1": "Bear claw",
+        "Answer 2": "Long john",
+        "Answer 3": "Fritter",
+        "Answer 4": "Buttermilk",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French cruller",
+        "Answer 1": "Bear claw",
+        "Answer 2": "Long john",
+        "Answer 3": "Fritter",
+        "Answer 4": "Yeast",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French cruller",
+        "Answer 1": "Bear claw",
+        "Answer 2": "Long john",
+        "Answer 3": "Fritter",
+        "Answer 4": "Spudnut",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French cruller",
+        "Answer 1": "Bear claw",
+        "Answer 2": "Long john",
+        "Answer 3": "Fritter",
+        "Answer 4": "Bismark",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French cruller",
+        "Answer 1": "Bear claw",
+        "Answer 2": "Long john",
+        "Answer 3": "Fritter",
+        "Answer 4": "Berliner",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French cruller",
+        "Answer 1": "Bear claw",
+        "Answer 2": "Long john",
+        "Answer 3": "Fritter",
+        "Answer 4": "Jelly",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French cruller",
+        "Answer 1": "Bear claw",
+        "Answer 2": "Long john",
+        "Answer 3": "Fritter",
+        "Answer 4": "Croissant",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French cruller",
+        "Answer 1": "Bear claw",
+        "Answer 2": "Long john",
+        "Answer 3": "Fritter",
+        "Answer 4": "Fasnachts",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French cruller",
+        "Answer 1": "Bear claw",
+        "Answer 2": "Long john",
+        "Answer 3": "Fritter",
+        "Answer 4": "Oldfashioned",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French cruller",
+        "Answer 1": "Bear claw",
+        "Answer 2": "Long john",
+        "Answer 3": "Fritter",
+        "Answer 4": "Bismarck",
+        "Answer 5": "Paczki"
+      }
+    ]
+  },
+  {
+    "user_id": 605,
+    "solved_at": null,
+    "attempts": 0,
+    "submission": []
+  },
+  {
+    "user_id": 248,
+    "solved_at": "2024-01-09T20:10:08.512Z",
+    "attempts": 4,
+    "submission": [
+      {
+        "Answer 0": "french cruller",
+        "Answer 1": "bear claw",
+        "Answer 2": "long john",
+        "Answer 3": "apple fritter",
+        "Answer 4": "timbit",
+        "Answer 5": "cakes"
+      },
+      {
+        "Answer 0": "french cruller",
+        "Answer 1": "bear claw",
+        "Answer 2": "long john",
+        "Answer 3": "apple fritter",
+        "Answer 4": "timbits",
+        "Answer 5": "cake"
+      },
+      {
+        "Answer 0": "french cruller",
+        "Answer 1": "bear claw",
+        "Answer 2": "long john",
+        "Answer 3": "fritter",
+        "Answer 4": "bismark",
+        "Answer 5": "ponchiki"
+      },
+      {
+        "Answer 0": "french cruller",
+        "Answer 1": "bear claw",
+        "Answer 2": "long john",
+        "Answer 3": "fritter",
+        "Answer 4": "bismarck",
+        "Answer 5": "ponchikis"
+      }
+    ]
+  },
+  {
+    "user_id": 249,
+    "solved_at": null,
+    "attempts": 4,
+    "submission": [
+      {
+        "Answer 0": "French cruller",
+        "Answer 1": "Berliner",
+        "Answer 2": "churros",
+        "Answer 3": "Frittelle",
+        "Answer 4": "beignets",
+        "Answer 5": ""
+      },
+      {
+        "Answer 0": "French cruller",
+        "Answer 1": "Berliner Ballen",
+        "Answer 2": "long johns",
+        "Answer 3": "fritter",
+        "Answer 4": "beignet",
+        "Answer 5": "potato"
+      },
+      {
+        "Answer 0": "French cruller",
+        "Answer 1": "Berliner Ballen",
+        "Answer 2": "long john",
+        "Answer 3": "fritter",
+        "Answer 4": "beignet",
+        "Answer 5": "potato"
+      },
+      {
+        "Answer 0": "French cruller",
+        "Answer 1": "Beer lobster. No idea",
+        "Answer 2": "Long john",
+        "Answer 3": "Fritter",
+        "Answer 4": "Bismarck ",
+        "Answer 5": ""
+      }
+    ]
+  },
+  {
+    "user_id": 27,
+    "solved_at": "2024-01-12T13:35:26.353Z",
+    "attempts": 2,
+    "submission": [
+      {
+        "Answer 0": "French Cruller ",
+        "Answer 1": "Bear Claw ",
+        "Answer 2": "Long John ",
+        "Answer 3": "Fritter",
+        "Answer 4": "Bismark ",
+        "Answer 5": "Paczki "
+      },
+      {
+        "Answer 0": "French Cruller ",
+        "Answer 1": "Bear Claw ",
+        "Answer 2": "Long John ",
+        "Answer 3": "Fritter",
+        "Answer 4": "Bismarck ",
+        "Answer 5": "Paczki "
+      }
+    ]
+  },
+  {
+    "user_id": 549,
+    "solved_at": null,
+    "attempts": 7,
+    "submission": [
+      {
+        "Answer 0": "french cruller",
+        "Answer 1": "bear claw",
+        "Answer 2": "long john",
+        "Answer 3": "beignet",
+        "Answer 4": "churro",
+        "Answer 5": "packzi"
+      },
+      {
+        "Answer 0": "french cruller",
+        "Answer 1": "bear claw",
+        "Answer 2": "long john",
+        "Answer 3": "croissant",
+        "Answer 4": "churro",
+        "Answer 5": "packzi"
+      },
+      {
+        "Answer 0": "french cruller",
+        "Answer 1": "bear claw",
+        "Answer 2": "long john",
+        "Answer 3": "mochi",
+        "Answer 4": "churro",
+        "Answer 5": "packzi"
+      },
+      {
+        "Answer 0": "french cruller",
+        "Answer 1": "bear claw",
+        "Answer 2": "long john",
+        "Answer 3": "cronut",
+        "Answer 4": "churro",
+        "Answer 5": "packzi"
+      },
+      {
+        "Answer 0": "french cruller",
+        "Answer 1": "bear claw",
+        "Answer 2": "long john",
+        "Answer 3": "cronut",
+        "Answer 4": "churro",
+        "Answer 5": "ponchiki"
+      },
+      {
+        "Answer 0": "french cruller",
+        "Answer 1": "bear claw",
+        "Answer 2": "long john",
+        "Answer 3": "cronut",
+        "Answer 4": "churro",
+        "Answer 5": "punshki"
+      },
+      {
+        "Answer 0": "french cruller",
+        "Answer 1": "bear claw",
+        "Answer 2": "long john",
+        "Answer 3": "cronut",
+        "Answer 4": "churro",
+        "Answer 5": "pampushky"
+      }
+    ]
+  },
+  {
+    "user_id": 11,
+    "solved_at": null,
+    "attempts": 0,
+    "submission": []
+  },
+  {
+    "user_id": 15,
+    "solved_at": null,
+    "attempts": 1,
+    "submission": [
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear claw",
+        "Answer 2": "Long Johns",
+        "Answer 3": "Cronut",
+        "Answer 4": "bismarck",
+        "Answer 5": "Pampushky"
+      }
+    ]
+  },
+  {
+    "user_id": 686,
+    "solved_at": "2024-01-09T18:04:17.836Z",
+    "attempts": 4,
+    "submission": [
+      {
+        "Answer 0": "french cruller",
+        "Answer 1": "bear claw",
+        "Answer 2": "toilets",
+        "Answer 3": "Fritters",
+        "Answer 4": "Bismark",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "french cruller",
+        "Answer 1": "bear claw",
+        "Answer 2": "toilets",
+        "Answer 3": "Fritter",
+        "Answer 4": "Bismark",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "french cruller",
+        "Answer 1": "bear claw",
+        "Answer 2": "toilets",
+        "Answer 3": "Fritter",
+        "Answer 4": "Bismarck",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "french cruller",
+        "Answer 1": "bear claw",
+        "Answer 2": "Long john",
+        "Answer 3": "Fritter",
+        "Answer 4": "Bismarck",
+        "Answer 5": "Paczki"
+      }
+    ]
+  },
+  {
+    "user_id": 215,
+    "solved_at": "2024-01-11T15:39:49.884Z",
+    "attempts": 7,
+    "submission": [
+      {
+        "Answer 0": "french cruller",
+        "Answer 1": "bear claw",
+        "Answer 2": "long john",
+        "Answer 3": "macaron",
+        "Answer 4": "krispy kreme",
+        "Answer 5": "idk"
+      },
+      {
+        "Answer 0": "french cruller",
+        "Answer 1": "bear claw",
+        "Answer 2": "long john",
+        "Answer 3": "eclair",
+        "Answer 4": "dunkin",
+        "Answer 5": "idk"
+      },
+      {
+        "Answer 0": "french cruller",
+        "Answer 1": "bear claw",
+        "Answer 2": "long john",
+        "Answer 3": "macaroon",
+        "Answer 4": "dunkin",
+        "Answer 5": "idk"
+      },
+      {
+        "Answer 0": "french cruller",
+        "Answer 1": "bear claw",
+        "Answer 2": "long john",
+        "Answer 3": "fritter",
+        "Answer 4": "dunkin'",
+        "Answer 5": ""
+      },
+      {
+        "Answer 0": "french cruller",
+        "Answer 1": "bear claw",
+        "Answer 2": "long john",
+        "Answer 3": "fritter",
+        "Answer 4": "economics",
+        "Answer 5": ""
+      },
+      {
+        "Answer 0": "french cruller",
+        "Answer 1": "bear claw",
+        "Answer 2": "long john",
+        "Answer 3": "fritter",
+        "Answer 4": "twist",
+        "Answer 5": ""
+      },
+      {
+        "Answer 0": "french cruller",
+        "Answer 1": "bear claw",
+        "Answer 2": "long john",
+        "Answer 3": "fritter",
+        "Answer 4": "bismarck",
+        "Answer 5": ""
+      }
+    ]
+  },
+  {
+    "user_id": 576,
+    "solved_at": "2024-01-09T22:44:43.626Z",
+    "attempts": 2,
+    "submission": [
+      {
+        "Answer 0": "french cruller",
+        "Answer 1": "bear claws",
+        "Answer 2": "long johns",
+        "Answer 3": "fritter",
+        "Answer 4": "bismarck",
+        "Answer 5": "paczki"
+      },
+      {
+        "Answer 0": "french cruller",
+        "Answer 1": "bear claw",
+        "Answer 2": "long john",
+        "Answer 3": "fritter",
+        "Answer 4": "bismarck",
+        "Answer 5": "paczki"
+      }
+    ]
+  },
+  {
+    "user_id": 39,
+    "solved_at": "2024-01-12T00:16:31.047Z",
+    "attempts": 2,
+    "submission": [
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear claw",
+        "Answer 2": "Long john",
+        "Answer 3": "Fritter",
+        "Answer 4": "Bismark",
+        "Answer 5": "Pampushky"
+      },
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear claw",
+        "Answer 2": "Long john",
+        "Answer 3": "Fritter",
+        "Answer 4": "Bismarck",
+        "Answer 5": "Paczki"
+      }
+    ]
+  },
+  {
+    "user_id": 239,
+    "solved_at": null,
+    "attempts": 0,
+    "submission": []
+  },
+  {
+    "user_id": 28,
+    "solved_at": null,
+    "attempts": 0,
+    "submission": []
+  },
+  {
+    "user_id": 554,
+    "solved_at": "2024-01-11T15:33:09.294Z",
+    "attempts": 22,
+    "submission": [
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "Long John",
+        "Answer 3": "Fritter",
+        "Answer 4": "Glazed",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "Long John",
+        "Answer 3": "Fritter",
+        "Answer 4": "Jelly",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "Long John",
+        "Answer 3": "Fritter",
+        "Answer 4": "Eclair",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "Long John",
+        "Answer 3": "Fritter",
+        "Answer 4": "Sugar",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "Long John",
+        "Answer 3": "Fritter",
+        "Answer 4": "Frosted",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "Long John",
+        "Answer 3": "Fritter",
+        "Answer 4": "Jelly",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "Long John",
+        "Answer 3": "Fritter",
+        "Answer 4": "Krispy Kreme",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "Long John",
+        "Answer 3": "Fritter",
+        "Answer 4": "Munchkins",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "Long John",
+        "Answer 3": "Fritter",
+        "Answer 4": "Timbits",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "Long John",
+        "Answer 3": "Fritter",
+        "Answer 4": "Voodoo",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "Long John",
+        "Answer 3": "Fritter",
+        "Answer 4": "Dunkin",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "Long John",
+        "Answer 3": "Fritter",
+        "Answer 4": "Dunkin'",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "Long John",
+        "Answer 3": "Fritter",
+        "Answer 4": "Original Glazed",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "Long John",
+        "Answer 3": "Fritter",
+        "Answer 4": "donut hole",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "Long John",
+        "Answer 3": "Fritter",
+        "Answer 4": "Hole",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "Long John",
+        "Answer 3": "Fritter",
+        "Answer 4": "Old Fashioned",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "Long John",
+        "Answer 3": "Fritter",
+        "Answer 4": "Old-fashioned",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "Long John",
+        "Answer 3": "Fritter",
+        "Answer 4": "Mini",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "Long John",
+        "Answer 3": "Fritter",
+        "Answer 4": "Classic Glazed",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "Long John",
+        "Answer 3": "Fritter",
+        "Answer 4": "Cream",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "Long John",
+        "Answer 3": "Fritter",
+        "Answer 4": "Twist",
+        "Answer 5": "Paczki"
+      },
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "Long John",
+        "Answer 3": "Fritter",
+        "Answer 4": "Bismarck",
+        "Answer 5": "Paczki"
+      }
+    ]
+  },
+  {
+    "user_id": 19,
+    "solved_at": "2024-01-11T23:08:53.605Z",
+    "attempts": 46,
+    "submission": [
+      {
+        "Answer 0": "French Creme",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "Glazed",
+        "Answer 3": "French Cruller",
+        "Answer 4": "Dunkin",
+        "Answer 5": "Jelly"
+      },
+      {
+        "Answer 0": "French Cream",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "Glazed twist",
+        "Answer 3": "French Cream",
+        "Answer 4": "Dunkin",
+        "Answer 5": "Jelly"
+      },
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "Long Johns",
+        "Answer 3": "French Cream",
+        "Answer 4": "Old Fashioned",
+        "Answer 5": "Jelly"
+      },
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "Long John",
+        "Answer 3": "French Cream",
+        "Answer 4": "Old Fashioned",
+        "Answer 5": "Jelly"
+      },
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "Long John",
+        "Answer 3": "Cronut",
+        "Answer 4": "Old Fashioned",
+        "Answer 5": "Jelly"
+      },
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "Long John",
+        "Answer 3": "French Cronut",
+        "Answer 4": "Old Fashioned",
+        "Answer 5": "Jelly"
+      },
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "Long John",
+        "Answer 3": "French Creme",
+        "Answer 4": "Chocolate sprinkled",
+        "Answer 5": "Jelly"
+      },
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "Long John",
+        "Answer 3": "French Creme",
+        "Answer 4": "Rainbow frosted",
+        "Answer 5": "Jelly"
+      },
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "Long John",
+        "Answer 3": "Eclair",
+        "Answer 4": "Krispy Kreme",
+        "Answer 5": "Jelly"
+      },
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "Long John",
+        "Answer 3": "French Eclair",
+        "Answer 4": "Krispy Kreme",
+        "Answer 5": "Jelly"
+      },
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "Long John",
+        "Answer 3": "K",
+        "Answer 4": "Glazed",
+        "Answer 5": "Jelly"
+      },
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "Long John",
+        "Answer 3": "K",
+        "Answer 4": "Strawberry Frosted",
+        "Answer 5": "Jelly"
+      },
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "Long John",
+        "Answer 3": "Beignet",
+        "Answer 4": "Strawberry Frosted",
+        "Answer 5": "Jelly"
+      },
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "Long John",
+        "Answer 3": "French Beignet",
+        "Answer 4": "Strawberry Frosted",
+        "Answer 5": "Jelly"
+      },
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "Long John",
+        "Answer 3": "Custard",
+        "Answer 4": "Jelly",
+        "Answer 5": ""
+      },
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "Long John",
+        "Answer 3": "Cream",
+        "Answer 4": "Jelly",
+        "Answer 5": ""
+      },
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "Long John",
+        "Answer 3": "Creme",
+        "Answer 4": "Jelly",
+        "Answer 5": ""
+      },
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "Long John",
+        "Answer 3": "Iced",
+        "Answer 4": "Jelly",
+        "Answer 5": ""
+      },
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "Long John",
+        "Answer 3": "Fritter",
+        "Answer 4": "Jelly",
+        "Answer 5": ""
+      },
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "Long John",
+        "Answer 3": "Fritter",
+        "Answer 4": "Iced",
+        "Answer 5": ""
+      },
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "Long John",
+        "Answer 3": "Fritter",
+        "Answer 4": "Sugar",
+        "Answer 5": ""
+      },
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "Long John",
+        "Answer 3": "Fritter",
+        "Answer 4": "Plain",
+        "Answer 5": ""
+      },
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "Long John",
+        "Answer 3": "Fritter",
+        "Answer 4": "Powdered",
+        "Answer 5": ""
+      },
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "Long John",
+        "Answer 3": "Fritter",
+        "Answer 4": "Powder",
+        "Answer 5": ""
+      },
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "Long John",
+        "Answer 3": "Fritter",
+        "Answer 4": "Chocolate",
+        "Answer 5": ""
+      },
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "Long John",
+        "Answer 3": "Fritter",
+        "Answer 4": "Hole",
+        "Answer 5": ""
+      },
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "Long John",
+        "Answer 3": "Fritter",
+        "Answer 4": "Coffee",
+        "Answer 5": ""
+      },
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "Long John",
+        "Answer 3": "Fritter",
+        "Answer 4": "Strawberry",
+        "Answer 5": ""
+      },
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "Long John",
+        "Answer 3": "Fritter",
+        "Answer 4": "Ice",
+        "Answer 5": ""
+      },
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "Long John",
+        "Answer 3": "Fritter",
+        "Answer 4": "Sprinkles",
+        "Answer 5": ""
+      },
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "Long John",
+        "Answer 3": "Fritter",
+        "Answer 4": "Sprinkle",
+        "Answer 5": ""
+      },
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "Long John",
+        "Answer 3": "Fritter",
+        "Answer 4": "Eclair",
+        "Answer 5": ""
+      },
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "Long John",
+        "Answer 3": "Fritter",
+        "Answer 4": "Raise",
+        "Answer 5": ""
+      },
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "Long John",
+        "Answer 3": "Fritter",
+        "Answer 4": "Twist",
+        "Answer 5": ""
+      },
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "Long John",
+        "Answer 3": "Fritter",
+        "Answer 4": "Holes",
+        "Answer 5": ""
+      },
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "Long John",
+        "Answer 3": "Fritter",
+        "Answer 4": "Cake",
+        "Answer 5": ""
+      },
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "Long John",
+        "Answer 3": "Fritter",
+        "Answer 4": "Spudnut",
+        "Answer 5": ""
+      },
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "Long John",
+        "Answer 3": "Fritter",
+        "Answer 4": "Wonut",
+        "Answer 5": ""
+      },
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "Long John",
+        "Answer 3": "Fritter",
+        "Answer 4": "Frosted",
+        "Answer 5": ""
+      },
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "Long John",
+        "Answer 3": "Fritter",
+        "Answer 4": "Coconut",
+        "Answer 5": ""
+      },
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "Long John",
+        "Answer 3": "Fritter",
+        "Answer 4": "Cronut",
+        "Answer 5": ""
+      },
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "Long John",
+        "Answer 3": "Fritter",
+        "Answer 4": "Paczki",
+        "Answer 5": ""
+      },
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "Long John",
+        "Answer 3": "Fritter",
+        "Answer 4": "Kreme",
+        "Answer 5": ""
+      },
+      {
+        "Answer 0": "K",
+        "Answer 1": "K",
+        "Answer 2": "K",
+        "Answer 3": "K",
+        "Answer 4": "Biscuit",
+        "Answer 5": ""
+      },
+      {
+        "Answer 0": "K",
+        "Answer 1": "K",
+        "Answer 2": "K",
+        "Answer 3": "K",
+        "Answer 4": "Bismarck",
+        "Answer 5": ""
+      },
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "Long John",
+        "Answer 3": "Fritter",
+        "Answer 4": "Bismarck",
+        "Answer 5": ""
+      }
+    ]
+  },
+  {
+    "user_id": 216,
+    "solved_at": "2024-01-11T03:17:01.131Z",
+    "attempts": 14,
+    "submission": [
+      {
+        "Answer 0": "french cruller",
+        "Answer 1": "bear claw",
+        "Answer 2": "long john",
+        "Answer 3": "fruit loops",
+        "Answer 4": "plain",
+        "Answer 5": ""
+      },
+      {
+        "Answer 0": "french cruller",
+        "Answer 1": "bear claw",
+        "Answer 2": "long john",
+        "Answer 3": "fruit loop",
+        "Answer 4": "doughnut",
+        "Answer 5": ""
+      },
+      {
+        "Answer 0": "french cruller",
+        "Answer 1": "bear claw",
+        "Answer 2": "long john",
+        "Answer 3": "critter",
+        "Answer 4": "biscuit",
+        "Answer 5": ""
+      },
+      {
+        "Answer 0": "french cruller",
+        "Answer 1": "bear claw",
+        "Answer 2": "long john",
+        "Answer 3": "fritter",
+        "Answer 4": "biscuit",
+        "Answer 5": ""
+      },
+      {
+        "Answer 0": "french cruller",
+        "Answer 1": "bear claw",
+        "Answer 2": "long john",
+        "Answer 3": "fritter",
+        "Answer 4": "old-fashioned",
+        "Answer 5": ""
+      },
+      {
+        "Answer 0": "french cruller",
+        "Answer 1": "bear claw",
+        "Answer 2": "long john",
+        "Answer 3": "fritter",
+        "Answer 4": "jelly",
+        "Answer 5": ""
+      },
+      {
+        "Answer 0": "french cruller",
+        "Answer 1": "bear claw",
+        "Answer 2": "long john",
+        "Answer 3": "fritter",
+        "Answer 4": "cake",
+        "Answer 5": ""
+      },
+      {
+        "Answer 0": "french cruller",
+        "Answer 1": "bear claw",
+        "Answer 2": "long john",
+        "Answer 3": "fritter",
+        "Answer 4": "hole",
+        "Answer 5": "cake"
+      },
+      {
+        "Answer 0": "french cruller",
+        "Answer 1": "bear claw",
+        "Answer 2": "long john",
+        "Answer 3": "fritter",
+        "Answer 4": "holes",
+        "Answer 5": "cake"
+      },
+      {
+        "Answer 0": "french cruller",
+        "Answer 1": "bear claw",
+        "Answer 2": "long john",
+        "Answer 3": "fritter",
+        "Answer 4": "jelly",
+        "Answer 5": "cake"
+      },
+      {
+        "Answer 0": "french cruller",
+        "Answer 1": "bear claw",
+        "Answer 2": "long john",
+        "Answer 3": "fritter",
+        "Answer 4": "mark",
+        "Answer 5": "cake"
+      },
+      {
+        "Answer 0": "french cruller",
+        "Answer 1": "bear claw",
+        "Answer 2": "long john",
+        "Answer 3": "fritter",
+        "Answer 4": "cronut",
+        "Answer 5": "cake"
+      },
+      {
+        "Answer 0": "french cruller",
+        "Answer 1": "bear claw",
+        "Answer 2": "long john",
+        "Answer 3": "fritter",
+        "Answer 4": "bismark",
+        "Answer 5": "cake"
+      },
+      {
+        "Answer 0": "french cruller",
+        "Answer 1": "bear claw",
+        "Answer 2": "long john",
+        "Answer 3": "fritter",
+        "Answer 4": "bismarck",
+        "Answer 5": "cake"
+      }
+    ]
+  },
+  {
+    "user_id": 8,
+    "solved_at": "2024-01-11T05:01:17.782Z",
+    "attempts": 12,
+    "submission": [
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "long johns",
+        "Answer 3": "fritter",
+        "Answer 4": "donut holes",
+        "Answer 5": "рonchiki"
+      },
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "long john",
+        "Answer 3": "fritter",
+        "Answer 4": "donut holes",
+        "Answer 5": "рonchiki"
+      },
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "long john",
+        "Answer 3": "fritter",
+        "Answer 4": "donut hole",
+        "Answer 5": "рonchiki"
+      },
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "long john",
+        "Answer 3": "fritter",
+        "Answer 4": "timbits",
+        "Answer 5": "рonchiki"
+      },
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "long john",
+        "Answer 3": "fritter",
+        "Answer 4": "tim bits",
+        "Answer 5": "рonchiki"
+      },
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "long john",
+        "Answer 3": "fritter",
+        "Answer 4": "tim bit",
+        "Answer 5": "рonchiki"
+      },
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "long john",
+        "Answer 3": "fritter",
+        "Answer 4": "tim bit",
+        "Answer 5": "Ponchik"
+      },
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "long john",
+        "Answer 3": "fritter",
+        "Answer 4": "The donut hole",
+        "Answer 5": "Ponchiky"
+      },
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "long john",
+        "Answer 3": "fritter",
+        "Answer 4": "dunkin",
+        "Answer 5": ""
+      },
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "long john",
+        "Answer 3": "fritter",
+        "Answer 4": "BeaverTails",
+        "Answer 5": ""
+      },
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "long john",
+        "Answer 3": "fritter",
+        "Answer 4": "bismark",
+        "Answer 5": ""
+      },
+      {
+        "Answer 0": "French Cruller",
+        "Answer 1": "Bear Claw",
+        "Answer 2": "long john",
+        "Answer 3": "fritter",
+        "Answer 4": "bismarck",
+        "Answer 5": ""
+      }
+    ]
+  }
+]
