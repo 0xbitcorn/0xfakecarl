@@ -2,3 +2,4 @@
 /files/
 /auth/
 .env
+/lib/commands/!needswork
